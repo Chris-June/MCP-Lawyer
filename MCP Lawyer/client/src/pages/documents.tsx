@@ -18,9 +18,15 @@ import { useToast } from '@/components/ui/use-toast'
 
 const jurisdictions = [
   { value: 'ontario', label: 'Ontario' },
-  { value: 'british_columbia', label: 'British Columbia' },
-  { value: 'alberta', label: 'Alberta' },
   { value: 'quebec', label: 'Quebec' },
+  { value: 'nova_scotia', label: 'Nova Scotia' },
+  { value: 'new_brunswick', label: 'New Brunswick' },
+  { value: 'manitoba', label: 'Manitoba' },
+  { value: 'british_columbia', label: 'British Columbia' },
+  { value: 'prince_edward_island', label: 'Prince Edward Island' },
+  { value: 'saskatchewan', label: 'Saskatchewan' },
+  { value: 'alberta', label: 'Alberta' },
+  { value: 'newfoundland_and_labrador', label: 'Newfoundland and Labrador' },
   { value: 'federal', label: 'Federal' },
 ]
 

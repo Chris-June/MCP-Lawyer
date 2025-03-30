@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-
-// Import react-hook-form directly
-import * as ReactHookForm from 'react-hook-form'
+import React, { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import { useMutation } from '@tanstack/react-query'
 import { analyzePredictiveOutcome } from '@/lib/legalToolsApi'
-import { PredictiveAnalysisRequest } from '@/types'
+import { PredictiveAnalysisRequest, PredictiveAnalysisResponse } from '@/types/legalTools'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -32,9 +32,20 @@ import {
 
 interface PredictiveOutcomeAnalysisProps {}
 
+const predictiveAnalysisSchema = z.object({
+  case_facts: z.string().min(10, { message: "Case facts must be at least 10 characters long" }),
+  legal_issues: z.array(z.string()).min(1, { message: "At least one legal issue is required" }),
+  jurisdiction: z.string().min(1, { message: "Jurisdiction is required" }),
+  relevant_statutes: z.array(z.string()).optional(),
+  similar_cases: z.array(z.string()).optional(),
+  client_position: z.string().optional(),
+  opposing_arguments: z.string().optional()
+})
+
 const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () => {
   const { toast } = useToast()
   const [showResults, setShowResults] = useState(false)
+  const [analysisResult, setAnalysisResult] = useState<PredictiveAnalysisResponse | null>(null)
   const [jurisdictions] = useState([
     'Federal',
     'Alberta',
@@ -52,16 +63,19 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
     'Yukon'
   ])
 
-  // Use the imported ReactHookForm object
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = ReactHookForm.useForm({
+  // Use Zod resolver with react-hook-form
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors }, 
+    watch, 
+    setValue 
+  } = useForm<PredictiveAnalysisRequest>({
+    resolver: zodResolver(predictiveAnalysisSchema),
     defaultValues: {
-      case_facts: '',
       legal_issues: [],
-      jurisdiction: 'Ontario',
       relevant_statutes: [],
-      similar_cases: [],
-      client_position: '',
-      opposing_arguments: ''
+      similar_cases: []
     }
   })
 
@@ -103,29 +117,63 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
   }
 
   const mutation = useMutation({
-    mutationFn: (data: PredictiveAnalysisRequest) => analyzePredictiveOutcome(data),
-    onSuccess: () => {
+    mutationFn: (data: PredictiveAnalysisRequest) => {
+      console.log('Mutation Data:', data);
+      return analyzePredictiveOutcome(data);
+    },
+    onSuccess: (result: PredictiveAnalysisResponse) => {
+      console.log('Full Analysis Result:', JSON.stringify(result, null, 2));
+      console.log('Outcome Prediction:', result.outcome_prediction);
+      
       toast({
         title: 'Analysis Complete',
         description: 'Predictive case outcome analysis has been generated.',
       })
+      setAnalysisResult(result)
       setShowResults(true)
     },
     onError: (error) => {
+      console.error('Mutation Error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to analyze case outcome';
+      
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to analyze case outcome',
+        description: errorMessage,
+      })
+      
+      // Create a complete error response that matches PredictiveAnalysisResponse
+      setAnalysisResult({
+        case_summary: 'Unable to generate case summary due to an error.',
+        outcome_prediction: {
+          favorable_outcome_percentage: 0,
+          confidence_level: 'low',
+          prediction_rationale: errorMessage
+        },
+        similar_precedents: [],
+        strength_weakness_analysis: {
+          strengths: [],
+          weaknesses: [],
+          opportunities: [],
+          threats: []
+        },
+        recommended_strategies: [],
+        alternative_outcomes: [],
+        disclaimer: 'This analysis could not be completed due to an unexpected error.'
       })
     }
   })
   
   // Submit handler
-
-
   const onSubmit = (data: PredictiveAnalysisRequest) => {
+    console.log('Form Data Submitted:', data);
     mutation.mutate(data)
   }
+
+  useEffect(() => {
+    console.log('Analysis Result Updated:', analysisResult);
+    console.log('Show Results:', showResults);
+  }, [analysisResult, showResults])
 
   const getConfidenceBadgeVariant = (level: string) => {
     switch (level.toLowerCase()) {
@@ -140,14 +188,197 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
     }
   }
 
+  const renderAnalysisResult = () => {
+    if (!analysisResult) return null;
+
+    // Check if the result is an error response
+    if (analysisResult.case_summary === 'Unable to generate case summary due to an error.') {
+      return (
+        <div className="text-red-500 space-y-4">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Analysis Error</AlertTitle>
+            <AlertDescription>
+              {analysisResult.outcome_prediction.prediction_rationale}
+            </AlertDescription>
+          </Alert>
+
+          {analysisResult.disclaimer && (
+            <div className="text-sm text-muted-foreground italic">
+              {analysisResult.disclaimer}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Render successful analysis
+    return (
+      <div className="space-y-4">
+        {analysisResult.case_summary && (
+          <div>
+            <h3 className="font-bold">Case Summary</h3>
+            <div>{analysisResult.case_summary}</div>
+          </div>
+        )}
+
+        {analysisResult.outcome_prediction && (
+          <div>
+            <h3 className="font-bold">Outcome Prediction</h3>
+            <div>Favorable Outcome: {analysisResult.outcome_prediction.favorable_outcome_percentage}%</div>
+            <div>
+              Confidence Level: 
+              <div className="inline-block ml-2">
+                <Badge 
+                  variant={getConfidenceBadgeVariant(analysisResult.outcome_prediction.confidence_level)}
+                >
+                  {analysisResult.outcome_prediction.confidence_level}
+                </Badge>
+              </div>
+            </div>
+            <div>Rationale: {analysisResult.outcome_prediction.prediction_rationale}</div>
+          </div>
+        )}
+
+        {analysisResult.similar_precedents && analysisResult.similar_precedents.length > 0 && (
+          <div>
+            <h3 className="font-bold">Similar Precedents</h3>
+            <div className="space-y-2">
+              {analysisResult.similar_precedents.map((precedent, index) => (
+                <div key={index} className="bg-muted/50 p-3 rounded-md">
+                  <div className="flex justify-between items-center">
+                    <h4 className="font-medium">{precedent.case_citation}</h4>
+                    <Badge variant="outline">
+                      {precedent.relevance_score}% relevance
+                    </Badge>
+                  </div>
+                  <div className="text-sm mt-1">
+                    Outcome: <div className={
+                      precedent.outcome.toLowerCase().includes('favorable') ? 'text-green-600' : 
+                      precedent.outcome.toLowerCase().includes('unfavorable') ? 'text-red-600' : 
+                      'text-amber-600'
+                    }>
+                      {precedent.outcome}
+                    </div>
+                  </div>
+                  {precedent.key_factors && precedent.key_factors.length > 0 && (
+                    <div className="mt-2">
+                      <div className="text-sm font-medium">Key Factors:</div>
+                      <ul className="text-sm mt-1 space-y-1 text-muted-foreground">
+                        {precedent.key_factors.map((factor, idx) => (
+                          <li key={idx}>{factor}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {analysisResult.strength_weakness_analysis && (
+          <div>
+            <h3 className="font-bold">SWOT Analysis</h3>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <h4 className="font-medium text-green-600 flex items-center gap-1">
+                  <CheckCircle className="h-4 w-4" /> Strengths
+                </h4>
+                <ul className="space-y-1">
+                  {analysisResult.strength_weakness_analysis.strengths.map((strength, index) => (
+                    <li key={index} className="text-sm">{strength}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-medium text-red-600 flex items-center gap-1">
+                  <AlertCircle className="h-4 w-4" /> Weaknesses
+                </h4>
+                <ul className="space-y-1">
+                  {analysisResult.strength_weakness_analysis.weaknesses.map((weakness, index) => (
+                    <li key={index} className="text-sm">{weakness}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-medium text-blue-600 flex items-center gap-1">
+                  <Lightbulb className="h-4 w-4" /> Opportunities
+                </h4>
+                <ul className="space-y-1">
+                  {analysisResult.strength_weakness_analysis.opportunities.map((opportunity, index) => (
+                    <li key={index} className="text-sm">{opportunity}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-medium text-amber-600 flex items-center gap-1">
+                  <AlertCircle className="h-4 w-4" /> Threats
+                </h4>
+                <ul className="space-y-1">
+                  {analysisResult.strength_weakness_analysis.threats.map((threat, index) => (
+                    <li key={index} className="text-sm">{threat}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {analysisResult.recommended_strategies && analysisResult.recommended_strategies.length > 0 && (
+          <div>
+            <h3 className="font-bold">Recommended Strategies</h3>
+            <div className="space-y-3">
+              {analysisResult.recommended_strategies.map((strategy, index) => (
+                <div key={index} className="flex items-start gap-2 p-3 rounded-md bg-muted/50">
+                  <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
+                  <div className="text-sm">{strategy}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {analysisResult.alternative_outcomes && analysisResult.alternative_outcomes.length > 0 && (
+          <div>
+            <h3 className="font-bold">Alternative Outcomes</h3>
+            <div className="space-y-3">
+              {analysisResult.alternative_outcomes.map((outcome, index) => (
+                <div key={index} className="bg-muted/50 p-3 rounded-md">
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex-1">
+                      <h4 className="font-medium">{outcome.scenario}</h4>
+                      <div className="text-sm text-muted-foreground mt-1">{outcome.impact}</div>
+                    </div>
+                    <div>
+                      <Badge variant="outline" className="text-sm">
+                        {outcome.probability}% probability
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {analysisResult.disclaimer && (
+          <div className="text-sm text-gray-500 italic">
+            {analysisResult.disclaimer}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="container mx-auto py-6 space-y-8">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Predictive Case Outcome Analysis</h1>
-          <p className="text-muted-foreground mt-2">
+          <div className="text-muted-foreground mt-2">
             Analyze potential case outcomes based on similar precedents and legal factors
-          </p>
+          </div>
         </div>
         <Scale className="h-12 w-12 text-primary opacity-80" />
       </div>
@@ -176,10 +407,12 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
                   id="case_facts"
                   placeholder="Describe the key facts of the case..."
                   className="min-h-[150px]"
-                  {...register('case_facts', { required: 'Case facts are required' })}
+                  {...register('case_facts')}
                 />
                 {errors.case_facts && (
-                  <p className="text-sm text-destructive">{errors.case_facts.message}</p>
+                  <div className="text-sm text-destructive">
+                    {errors.case_facts.message}
+                  </div>
                 )}
               </div>
 
@@ -199,25 +432,28 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
                     Add
                   </Button>
                 </div>
-                {errors.legal_issues && (
-                  <p className="text-sm text-destructive">{errors.legal_issues.message}</p>
-                )}
+                {/* Render added legal issues */}
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {watch('legal_issues')?.map((issue: any, index: number) => (
-                    <Badge key={index} variant="secondary" className="flex items-center gap-1 py-1.5">
-                      {issue}
-                      <button
-                        type="button"
-                        onClick={() => removeItem('legal_issues', index)}
-                        className="ml-1 text-muted-foreground hover:text-foreground"
-                      >
-                        ×
-                      </button>
-                    </Badge>
+                  {watch('legal_issues')?.map((issue: string, index: number) => (
+                    <div key={index} className="flex items-center">
+                      <Badge variant="secondary" className="flex items-center">
+                        {issue}
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="ml-1 h-4 w-4 p-0"
+                          onClick={() => removeItem('legal_issues', index)}
+                        >
+                          ✕
+                        </Button>
+                      </Badge>
+                    </div>
                   ))}
                 </div>
-                {watch('legal_issues')?.length === 0 && (
-                  <p className="text-sm text-muted-foreground">At least one legal issue is required</p>
+                {errors.legal_issues && (
+                  <div className="text-sm text-destructive">
+                    {errors.legal_issues.message}
+                  </div>
                 )}
               </div>
 
@@ -228,47 +464,20 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
                 </Label>
                 <select
                   id="jurisdiction"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  {...register('jurisdiction', { required: 'Jurisdiction is required' })}
+                  {...register('jurisdiction')}
+                  className="w-full p-2 border rounded"
                 >
-                  {jurisdictions.map((jurisdiction) => (
-                    <option key={jurisdiction} value={jurisdiction}>
-                      {jurisdiction}
+                  {jurisdictions.map((jur) => (
+                    <option key={jur} value={jur}>
+                      {jur}
                     </option>
                   ))}
                 </select>
                 {errors.jurisdiction && (
-                  <p className="text-sm text-destructive">{errors.jurisdiction.message}</p>
+                  <div className="text-sm text-destructive">
+                    {errors.jurisdiction.message}
+                  </div>
                 )}
-              </div>
-
-              {/* Client Position */}
-              <div className="space-y-2">
-                <Label htmlFor="client_position" className="text-base font-medium">
-                  Client's Position <span className="text-destructive">*</span>
-                </Label>
-                <Textarea
-                  id="client_position"
-                  placeholder="Describe your client's position or arguments..."
-                  className="min-h-[100px]"
-                  {...register('client_position', { required: "Client's position is required" })}
-                />
-                {errors.client_position && (
-                  <p className="text-sm text-destructive">{errors.client_position.message}</p>
-                )}
-              </div>
-
-              {/* Opposing Arguments */}
-              <div className="space-y-2">
-                <Label htmlFor="opposing_arguments" className="text-base font-medium">
-                  Opposing Arguments
-                </Label>
-                <Textarea
-                  id="opposing_arguments"
-                  placeholder="Describe the opposing party's arguments (if known)..."
-                  className="min-h-[100px]"
-                  {...register('opposing_arguments')}
-                />
               </div>
 
               {/* Relevant Statutes */}
@@ -276,7 +485,7 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
                 <Label className="text-base font-medium">Relevant Statutes</Label>
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Enter a statute..."
+                    placeholder="Enter a relevant statute..."
                     value={statuteInput}
                     onChange={(e) => setStatuteInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addStatute())}
@@ -286,17 +495,20 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {watch('relevant_statutes')?.map((statute: any, index: number) => (
-                    <Badge key={index} variant="outline" className="flex items-center gap-1 py-1.5">
-                      {statute}
-                      <button
-                        type="button"
-                        onClick={() => removeItem('relevant_statutes', index)}
-                        className="ml-1 text-muted-foreground hover:text-foreground"
-                      >
-                        ×
-                      </button>
-                    </Badge>
+                  {watch('relevant_statutes')?.map((statute: string, index: number) => (
+                    <div key={index} className="flex items-center">
+                      <Badge variant="secondary" className="flex items-center">
+                        {statute}
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="ml-1 h-4 w-4 p-0"
+                          onClick={() => removeItem('relevant_statutes', index)}
+                        >
+                          ✕
+                        </Button>
+                      </Badge>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -306,7 +518,7 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
                 <Label className="text-base font-medium">Similar Cases</Label>
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Enter a case citation..."
+                    placeholder="Enter a similar case..."
                     value={caseInput}
                     onChange={(e) => setCaseInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCase())}
@@ -316,37 +528,57 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {watch('similar_cases')?.map((caseItem: any, index: number) => (
-                    <Badge key={index} variant="outline" className="flex items-center gap-1 py-1.5">
-                      {caseItem}
-                      <button
-                        type="button"
-                        onClick={() => removeItem('similar_cases', index)}
-                        className="ml-1 text-muted-foreground hover:text-foreground"
-                      >
-                        ×
-                      </button>
-                    </Badge>
+                  {watch('similar_cases')?.map((similarCase: string, index: number) => (
+                    <div key={index} className="flex items-center">
+                      <Badge variant="secondary" className="flex items-center">
+                        {similarCase}
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="ml-1 h-4 w-4 p-0"
+                          onClick={() => removeItem('similar_cases', index)}
+                        >
+                          ✕
+                        </Button>
+                      </Badge>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end">
-                <Button
-                  type="submit"
-                  disabled={mutation.isPending}
-                  className="min-w-[150px]"
-                >
+              {/* Client Position */}
+              <div className="space-y-2">
+                <Label htmlFor="client_position" className="text-base font-medium">
+                  Client Position
+                </Label>
+                <Textarea
+                  id="client_position"
+                  placeholder="Describe the client's position..."
+                  {...register('client_position')}
+                />
+              </div>
+
+              {/* Opposing Arguments */}
+              <div className="space-y-2">
+                <Label htmlFor="opposing_arguments" className="text-base font-medium">
+                  Opposing Arguments
+                </Label>
+                <Textarea
+                  id="opposing_arguments"
+                  placeholder="Describe potential opposing arguments..."
+                  {...register('opposing_arguments')}
+                />
+              </div>
+
+              <div className="flex justify-end">
+                <Button type="submit" className="w-full" disabled={mutation.isPending}>
                   {mutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Analyzing...
+                      Analyzing Case...
                     </>
                   ) : (
-                    <>
-                      <BarChart className="mr-2 h-4 w-4" />
-                      Analyze Case
-                    </>
+                    'Analyze Case'
                   )}
                 </Button>
               </div>
@@ -354,251 +586,21 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-6">
-          {/* Results Section */}
-          {mutation.data && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Card className="overflow-hidden">
-                <CardHeader className="pb-4">
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-xl font-bold flex items-center gap-2">
-                      <Scale className="h-5 w-5 text-primary" />
-                      <span>Outcome Analysis</span>
-                    </CardTitle>
-                    <Button variant="outline" size="sm" onClick={() => setShowResults(false)}>
-                      New Analysis
-                    </Button>
-                  </div>
-                  <CardDescription>
-                    Based on {watch('jurisdiction')} jurisdiction and similar precedents
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="pb-8">
-                  <Tabs defaultValue="summary" className="w-full">
-                    <TabsList className="grid w-full grid-cols-4">
-                      <TabsTrigger value="summary">Summary</TabsTrigger>
-                      <TabsTrigger value="prediction">Prediction</TabsTrigger>
-                      <TabsTrigger value="precedents">Precedents</TabsTrigger>
-                      <TabsTrigger value="strategies">Strategies</TabsTrigger>
-                    </TabsList>
-
-                    {/* Summary Tab */}
-                    <TabsContent value="summary" className="space-y-6 pt-4">
-                      <div className="prose prose-sm max-w-none">
-                        <h3 className="text-lg font-medium">Case Summary</h3>
-                        <p>{mutation.data.case_summary}</p>
-                      </div>
-
-                      <div className="grid gap-6 md:grid-cols-2">
-                        <Card className="overflow-hidden">
-                          <CardHeader className="pb-2 pt-4">
-                            <CardTitle className="text-base font-medium flex items-center gap-2">
-                              <TrendingUp className="h-4 w-4 text-amber-500" />
-                              <span>Outcome Prediction</span>
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent className="pt-0">
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <span className="text-3xl font-bold">
-                                  {mutation.data.outcome_prediction.favorable_outcome_percentage}%
-                                </span>
-                                <span className="text-sm text-muted-foreground ml-2">
-                                  favorable outcome
-                                </span>
-                              </div>
-                              <Badge variant={getConfidenceBadgeVariant(mutation.data.outcome_prediction.confidence_level)}>
-                                {mutation.data.outcome_prediction.confidence_level} confidence
-                              </Badge>
-                            </div>
-                            <Progress 
-                              value={mutation.data.outcome_prediction.favorable_outcome_percentage} 
-                              className="h-2 mt-2" 
-                            />
-                          </CardContent>
-                        </Card>
-
-                        <Card className="overflow-hidden">
-                          <CardHeader className="pb-2 pt-4">
-                            <CardTitle className="text-base font-medium flex items-center gap-2">
-                              <ListChecks className="h-4 w-4 text-green-500" />
-                              <span>SWOT Analysis</span>
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent className="pt-0">
-                            <div className="grid grid-cols-2 gap-3 text-sm">
-                              <div>
-                                <p className="font-medium text-green-600">Strengths</p>
-                                <p className="text-muted-foreground">
-                                  {mutation.data.strength_weakness_analysis.strengths.length} identified
-                                </p>
-                              </div>
-                              <div>
-                                <p className="font-medium text-red-600">Weaknesses</p>
-                                <p className="text-muted-foreground">
-                                  {mutation.data.strength_weakness_analysis.weaknesses.length} identified
-                                </p>
-                              </div>
-                              <div>
-                                <p className="font-medium text-blue-600">Opportunities</p>
-                                <p className="text-muted-foreground">
-                                  {mutation.data.strength_weakness_analysis.opportunities.length} identified
-                                </p>
-                              </div>
-                              <div>
-                                <p className="font-medium text-amber-600">Threats</p>
-                                <p className="text-muted-foreground">
-                                  {mutation.data.strength_weakness_analysis.threats.length} identified
-                                </p>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-
-                      <Alert>
-                        <Info className="h-4 w-4" />
-                        <AlertTitle>Disclaimer</AlertTitle>
-                        <AlertDescription className="text-sm">
-                          {mutation.data.disclaimer}
-                        </AlertDescription>
-                      </Alert>
-                    </TabsContent>
-
-                    {/* Prediction Tab */}
-                    <TabsContent value="prediction" className="space-y-6 pt-4">
-                      <div className="prose prose-sm max-w-none">
-                        <h3 className="text-lg font-medium">Prediction Rationale</h3>
-                        <p>{mutation.data.outcome_prediction.prediction_rationale}</p>
-                      </div>
-
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-medium">Alternative Outcomes</h3>
-                        {mutation.data.alternative_outcomes.map((outcome, index) => (
-                          <Card key={index} className="overflow-hidden">
-                            <CardContent className="pt-4">
-                              <div className="flex justify-between items-start gap-4">
-                                <div className="flex-1">
-                                  <h4 className="font-medium">{outcome.scenario}</h4>
-                                  <p className="text-sm text-muted-foreground mt-1">{outcome.impact}</p>
-                                </div>
-                                <Badge variant="outline" className="text-sm">
-                                  {outcome.probability}% probability
-                                </Badge>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-medium">SWOT Analysis</h3>
-                        <div className="grid gap-4 sm:grid-cols-2">
-                          <div className="space-y-2">
-                            <h4 className="font-medium text-green-600 flex items-center gap-1">
-                              <CheckCircle className="h-4 w-4" /> Strengths
-                            </h4>
-                            <ul className="space-y-1">
-                              {mutation.data.strength_weakness_analysis.strengths.map((strength, index) => (
-                                <li key={index} className="text-sm">{strength}</li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div className="space-y-2">
-                            <h4 className="font-medium text-red-600 flex items-center gap-1">
-                              <AlertCircle className="h-4 w-4" /> Weaknesses
-                            </h4>
-                            <ul className="space-y-1">
-                              {mutation.data.strength_weakness_analysis.weaknesses.map((weakness, index) => (
-                                <li key={index} className="text-sm">{weakness}</li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div className="space-y-2">
-                            <h4 className="font-medium text-blue-600 flex items-center gap-1">
-                              <Lightbulb className="h-4 w-4" /> Opportunities
-                            </h4>
-                            <ul className="space-y-1">
-                              {mutation.data.strength_weakness_analysis.opportunities.map((opportunity, index) => (
-                                <li key={index} className="text-sm">{opportunity}</li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div className="space-y-2">
-                            <h4 className="font-medium text-amber-600 flex items-center gap-1">
-                              <AlertCircle className="h-4 w-4" /> Threats
-                            </h4>
-                            <ul className="space-y-1">
-                              {mutation.data.strength_weakness_analysis.threats.map((threat, index) => (
-                                <li key={index} className="text-sm">{threat}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </TabsContent>
-
-                    {/* Precedents Tab */}
-                    <TabsContent value="precedents" className="space-y-6 pt-4">
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-medium">Similar Precedents</h3>
-                        {mutation.data.similar_precedents.map((precedent, index) => (
-                          <Card key={index} className="overflow-hidden">
-                            <CardContent className="pt-4">
-                              <div className="flex justify-between items-start">
-                                <h4 className="font-medium">{precedent.case_citation}</h4>
-                                <Badge variant="outline">
-                                  {precedent.relevance_score}% relevance
-                                </Badge>
-                              </div>
-                              <p className="text-sm font-medium mt-2">
-                                Outcome: <span className={precedent.outcome.toLowerCase().includes('favorable') ? 'text-green-600' : precedent.outcome.toLowerCase().includes('unfavorable') ? 'text-red-600' : 'text-amber-600'}>{precedent.outcome}</span>
-                              </p>
-                              <div className="mt-2">
-                                <p className="text-sm font-medium">Key Factors:</p>
-                                <ul className="text-sm mt-1 space-y-1">
-                                  {precedent.key_factors.map((factor, idx) => (
-                                    <li key={idx} className="text-muted-foreground">{factor}</li>
-                                  ))}
-                                </ul>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    </TabsContent>
-
-                    {/* Strategies Tab */}
-                    <TabsContent value="strategies" className="space-y-6 pt-4">
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-medium">Recommended Strategies</h3>
-                        <div className="space-y-3">
-                          {mutation.data.recommended_strategies.map((strategy, index) => (
-                            <div key={index} className="flex items-start gap-2 p-3 rounded-md bg-muted/50">
-                              <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-                              <div className="text-sm">{strategy}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-          
-          <div className="flex justify-center mt-8">
-            <Button onClick={() => setShowResults(false)} variant="outline" size="lg">
-              Back to Case Details
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-6"
+        >
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold">Case Outcome Analysis</h2>
+            <Button variant="outline" onClick={() => setShowResults(false)}>
+              Analyze Another Case
             </Button>
           </div>
-        </div>
+          
+          {renderAnalysisResult()}
+        </motion.div>
       )}
     </div>
   )

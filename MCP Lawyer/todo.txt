@@ -1,4 +1,4 @@
-# Pathways Law Practice Management Server Todo List
+# MCP Lawyer Todo List
 
 ## Recent Fixes
 - ✅ Fixed server connection issues (2025-03-29)
@@ -9,6 +9,18 @@
   - Fixed API route mismatches for client intake feature
   - Added compatible endpoints for client-side interview API calls
   - Separated Path and Body parameter versions of endpoints
+- ✅ Updated navigation refactoring details
+  - Refactored navigation in layout.tsx to use grouped dropdowns
+  - Added Shadcn UI DropdownMenu for improved navigation organization
+  - Grouped navigation items into logical categories:
+    * Legal Experts
+    * Documents
+    * Legal Tools
+    * Client Management
+- ✅ Updated package.json scripts
+  * Added `start:python` script to run Python server
+  - Modified `start:dev` to run Python server and client concurrently
+  - Replaced Node.js server startup with Python server in concurrent mode
 
 ## Current Features
 - ✅ Basic FastAPI server setup
@@ -40,6 +52,9 @@
 - ✅ Document comparison tool with clause extraction
 - ✅ Legal fee calculator with hourly and contingency fee models
 - ✅ Court filing assistant with checklists and requirements
+- ✅ Concurrent development setup with concurrently package
+- ✅ Improved README.md with development instructions
+- ✅ Added Radix UI Tabs dependency
 
 ## New MCP Server Features
 - [✅] Document Automation & Template System
@@ -78,6 +93,53 @@
   - [ ] Build visualization capabilities for legal relationships
   - [ ] Create advanced reasoning based on graph connections
 
+## API Configuration
+- [x] Fixed API URL port configuration
+  * Updated from port 8000 to 8001
+  * Resolved connection refused error
+
+## Server Configuration
+- [x] Updated server port to 8001
+  * Resolved port conflict
+  * Updated client API configuration
+  * Ensured smooth development workflow
+
+## Project Configuration
+- [x] Refactored package.json scripts
+  * Removed Node.js server script
+  * Updated start scripts for client and Python server
+  * Simplified development workflow
+
+## Component Development
+- [x] Created PredictiveAnalysis component
+  * Implemented form for predictive case analysis
+  * Added error and result handling
+  * Integrated with legal tools API
+- [x] Merged PredictiveAnalysis and PredictiveOutcomeAnalysis components
+- [x] Removed duplicate component in LegalTools folder
+- [x] Updated result rendering and form management in PredictiveOutcomeAnalysis
+- [x] Improved error handling and response type safety
+
+## Component Improvements
+- [x] Enhanced PredictiveAnalysis component
+  * Added robust error handling
+  * Implemented dynamic result rendering
+  * Created type-safe response handling
+  * Improved user feedback for API calls
+
+## Service Improvements
+- [x] Enhanced PredictiveAnalysisService parsing
+  * Implemented robust text extraction methods
+  * Added flexible section parsing
+  * Improved error handling
+  * Created more structured response parsing
+
+## Development Environment
+- [x] Restarted development server
+  * Python server running on port 8001
+  * Frontend running on port 5173
+  * Updated API configuration
+
 ## Immediate Tasks
 - [ ] Set up a valid OpenAI API key in the .env file (required for query processing)
 - [ ] Test query processing with a valid API key
@@ -85,6 +147,14 @@
 - [✅] Connect the React client to the backend API
 - [✅] Create comprehensive documentation in README.md
 - [✅] Initialize Git repository and push to GitHub
+- [ ] Implement full TypeScript support
+- [ ] Integrate Tailwind CSS v4
+- [ ] Set up shadcn/ui components
+- [ ] Add Framer Motion animations
+- [ ] Configure OpenAI API with GPT-4o-mini
+- [ ] Develop modular React components
+- [ ] Create comprehensive test suite
+- [ ] Set up CI/CD pipeline
 
 ## Upcoming Features
 - [ ] Add authentication (JWT with Supabase Auth)
@@ -167,6 +237,12 @@
 - [ ] Implement case outcome analysis tools
 - [ ] Add client relationship analytics
 
+## Debugging Tasks
+- [x] Investigate connection refused error for predictive analysis API
+  * Identified incorrect API endpoint in client code
+  * Updated client-side API call to match server route
+  * Resolved potential connection issue
+
 ## Advanced Memory Features
 - [ ] Implement shared memory collection across AI agents
 - [ ] Create hierarchical memory access control
@@ -199,3 +275,8 @@
 - [✅] Implement form validation for client intake
 - [✅] Add progress tracking for multi-step forms
 - [✅] Enhance UI with better loading states and error handling
+
+## Ongoing
+- Maintain documentation modularity
+- Keep dependencies up to date
+- Refactor components for better separation of concerns

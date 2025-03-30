@@ -149,6 +149,44 @@ The Model Context Protocol is a proprietary system for enhancing AI interactions
 - **Role Management**: Dynamic role-based instructions and behaviors
 - **Domain-Specific Knowledge**: Integration of Canadian legal knowledge
 
+## Development Setup
+
+### Prerequisites
+- Node.js
+- npm
+
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   cd client && npm install
+   ```
+
+### Running the Application
+- To run client and server concurrently:
+  ```bash
+  npm run start:dev
+  ```
+
+- To run server separately:
+  ```bash
+  npm start
+  ```
+
+- To run client separately:
+  ```bash
+  npm run start:client
+  ```
+
+## Development Scripts
+- `npm run start:dev`: Run client and server concurrently
+- `npm run start`: Start the backend server
+- `npm run start:client`: Start the frontend client
+- `npm run test`: Run tests
+- `npm run lint`: Run linting
+- `npm run format`: Format code
+
 ## Installation
 
 ### Prerequisites
@@ -250,63 +288,6 @@ Noesis Law Practice Management includes comprehensive documentation for all feat
 - **User Guides**: Step-by-step instructions for common workflows
 - **Development Guidelines**: Standards and best practices for contributing to the project
 
-## Development
-
-### Project Structure
-
-```
-/
-├── app/                # Backend FastAPI application
-│   ├── main.py        # Application entry point
-│   ├── config.py      # Configuration management
-│   ├── dependencies/  # Dependency injection
-│   ├── models/        # Data models and schemas
-│   ├── routes/        # API endpoints
-│   ├── services/      # Business logic
-│   └── utils/         # Helper functions
-│
-├── client/            # Frontend React application
-│   ├── public/        # Static files
-│   ├── src/           # Source code
-│   │   ├── components/  # Reusable UI components
-│   │   ├── hooks/       # Custom React hooks
-│   │   ├── lib/         # Utility libraries
-│   │   ├── pages/       # Page components
-│   │   ├── types/       # TypeScript type definitions
-│   │   └── App.tsx      # Main application component
-│   ├── vite.config.ts # Vite configuration
-│   └── package.json   # Dependencies and scripts
-│
-├── docs/             # Documentation
-├── tests/            # Test suite
-├── .env.example     # Example environment variables
-└── requirements.txt  # Python dependencies
-```
-
-### Adding New Features
-
-1. **Plan Your Feature**:
-   - Define requirements and design the feature
-   - Consider both frontend and backend implications
-
-2. **Backend Implementation**:
-   - Create models in `app/models/`
-   - Implement business logic in `app/services/`
-   - Add API endpoints in `app/routes/`
-
-3. **Frontend Implementation**:
-   - Add API functions in `client/src/lib/api.ts`
-   - Create UI components in `client/src/components/`
-   - Implement page components in `client/src/pages/`
-
-4. **Testing**:
-   - Write tests for new functionality
-   - Test both backend and frontend components
-
-5. **Documentation**:
-   - Create or update feature documentation in `/docs/`
-   - Update README.md if necessary
-
 ## Contributing
 
 Contributions to Noesis Law Practice Management are welcome! Please follow these steps:
@@ -321,7 +302,7 @@ Please ensure your code follows the project's coding standards and includes appr
 
 ## License
 
-Copyright © 2025 Christopher and IntelliSync Solutions. All rights reserved.
+Copyright 2025 Christopher and IntelliSync Solutions. All rights reserved.
 
 ---
 
@@ -335,7 +316,7 @@ The MCP Server follows a clean, modular architecture:
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │  React      │     │  FastAPI    │     │  OpenAI     │
 │  Client     │────▶│  Server     │────▶│  API        │
-└─────────────┘     └─────────────┘     └─────────────┘
+└─────────────┘     └──────────────┘     └─────────────┘
                            │
                            ▼
                     ┌─────────────┐
@@ -725,6 +706,9 @@ The following enhancements are planned for future releases to provide comprehens
 - **Predictive Case Outcome Analysis**: AI-powered analysis using GPT-4o-mini to predict case outcomes based on similar precedents, jurisdiction-specific factors, and SWOT analysis with confidence scoring
 
 ### Model Context Protocol (MCP)
+
+The Model Context Protocol is a proprietary system for enhancing AI interactions:
+
 - **Backend AI Processing**: Centralized AIProcessor service using GPT-4o-mini for consistent AI interactions across all legal tools
 - **Context-Aware Analysis**: Specialized services like PredictiveAnalysisService that leverage the AI processor with domain-specific context
 - **Structured Response Handling**: Well-defined data structures for AI responses with TypeScript types for frontend type safety
@@ -847,4 +831,4 @@ This documentation and software is authored by **IntelliSync Solutions**.
 Written by: Chris June
 Last Updated: March 29, 2025
 
-© 2025 Noesis Law. All rights reserved. Product Owner: Christopher and IntelliSync Solutions.
+ 2025 Noesis Law. All rights reserved. Product Owner: Christopher and IntelliSync Solutions.

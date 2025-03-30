@@ -16,8 +16,8 @@ from app.main import app
 if __name__ == "__main__":
     # Run the server using Uvicorn
     uvicorn.run(
-        "app.main:app",
+        app,
         host="0.0.0.0",
-        port=settings.port,
+        port=8000,
         reload=settings.debug
     )

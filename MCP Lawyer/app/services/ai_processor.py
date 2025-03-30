@@ -23,6 +23,14 @@ class AIProcessor:
             The generated response
         """
         try:
+            # Log the prompts for debugging
+            print("\n--- AI Request Debugging ---")
+            print("System Prompt:")
+            print(system_prompt)
+            print("\nUser Prompt:")
+            print(user_prompt)
+            print("--- End of Prompts ---\n")
+            
             response = await self.client.chat.completions.create(
                 model=self.model,
                 messages=[
@@ -30,17 +38,49 @@ class AIProcessor:
                     {"role": "user", "content": user_prompt}
                 ],
                 temperature=0.7,
-                max_tokens=1000,
+                max_tokens=1500,  # Increased to allow more detailed response
                 top_p=1.0,
                 frequency_penalty=0.0,
                 presence_penalty=0.0
             )
             
-            return response.choices[0].message.content.strip()
+            # Extract and log the response
+            full_response = response.choices[0].message
+            generated_text = full_response.content.strip() if full_response.content else ""
+            
+            print("\n--- AI Response Debugging ---")
+            print("Full Response Object:")
+            print(repr(full_response))
+            print("\nGenerated Text:")
+            print(generated_text)
+            print("--- End of Response ---\n")
+            
+            # Validate the response has some content
+            if not generated_text:
+                raise ValueError("Generated response is empty")
+            
+            return generated_text
         except Exception as e:
-            # In a production environment, add proper error handling and logging
-            print(f"Error generating response: {e}")
-            return f"I'm sorry, I encountered an error: {str(e)}"
+            # Comprehensive error handling and logging
+            error_message = f"Error generating response: {str(e)}"
+            print("\n--- AI Error Debugging ---")
+            print(error_message)
+            
+            # Log additional context if possible
+            import traceback
+            traceback.print_exc()
+            print("--- End of Error ---\n")
+            
+            # Return a structured error response
+            return f"""Case Summary: Unable to generate analysis
+Outcome Prediction:
+- Favorable Percentage: 50
+- Confidence Level: Low
+- Rationale: AI analysis failed due to technical error.
+
+Error Details: {error_message}
+
+Disclaimer: This is a fallback response. Please consult with a legal professional for accurate advice."""
     
     async def create_embedding(self, text: str) -> List[float]:
         """Create an embedding vector for the given text

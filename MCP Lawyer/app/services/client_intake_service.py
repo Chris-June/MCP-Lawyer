@@ -309,12 +309,33 @@ Please:
 Format your response as JSON that matches the expected response format.
 """
         
-        # Call OpenAI
-        ai_response = await self.openai_service.generate_completion(prompt)
-        
         try:
-            # Parse the AI response
-            analysis = json.loads(ai_response)
+            # Call OpenAI and await the response
+            ai_response = await self.openai_service.generate_completion(prompt)
+            print(f"DEBUG - AI Response received: {ai_response[:100]}...")
+            
+            # Clean up the AI response before parsing
+            # Sometimes the AI returns JSON in a markdown code block
+            cleaned_response = ai_response
+            
+            # Remove markdown code block formatting if present
+            if cleaned_response.startswith('```'):
+                # Find the first and last code block markers
+                first_marker_end = cleaned_response.find('\n', 3)  # Skip the first 3 chars (```)
+                if first_marker_end != -1:
+                    # Find the last marker
+                    last_marker = cleaned_response.rfind('```')
+                    if last_marker > first_marker_end:
+                        # Extract content between markers
+                        cleaned_response = cleaned_response[first_marker_end+1:last_marker].strip()
+                    else:
+                        # Just remove the first marker if no closing marker
+                        cleaned_response = cleaned_response[first_marker_end+1:].strip()
+            
+            print(f"Cleaned response for JSON parsing: {cleaned_response[:100]}...")
+            
+            # Parse the cleaned response as JSON
+            analysis = json.loads(cleaned_response)
             
             # Update interview response with AI analysis
             interview_response.sentimentAnalysis = analysis.get("sentimentAnalysis")
@@ -349,7 +370,16 @@ Format your response as JSON that matches the expected response format.
             
             return interview_response
             
+        except json.JSONDecodeError as e:
+            # Log the error with more details
+            print(f"Error parsing AI response as JSON: {e}")
+            print(f"AI response content: {ai_response}")
+            raise HTTPException(status_code=500, detail=f"Failed to parse AI response as JSON: {str(e)}")
         except Exception as e:
+            # Log any other errors
+            print(f"Error processing interview response: {e}")
+            import traceback
+            traceback.print_exc()
             raise HTTPException(status_code=500, detail=f"Failed to process interview response: {str(e)}")
     
     async def complete_interview(self, session_id: str) -> Dict[str, Any]:
@@ -406,12 +436,33 @@ Format your response as a valid JSON object with the following structure:
 }}
 """
         
-        # Call OpenAI
-        ai_response = await self.openai_service.generate_completion(prompt)
-        
         try:
-            # Parse the AI response
-            analysis = json.loads(ai_response)
+            # Call OpenAI and await the response
+            ai_response = await self.openai_service.generate_completion(prompt)
+            print(f"DEBUG - AI Response received: {ai_response[:100]}...")
+            
+            # Clean up the AI response before parsing
+            # Sometimes the AI returns JSON in a markdown code block
+            cleaned_response = ai_response
+            
+            # Remove markdown code block formatting if present
+            if cleaned_response.startswith('```'):
+                # Find the first and last code block markers
+                first_marker_end = cleaned_response.find('\n', 3)  # Skip the first 3 chars (```)
+                if first_marker_end != -1:
+                    # Find the last marker
+                    last_marker = cleaned_response.rfind('```')
+                    if last_marker > first_marker_end:
+                        # Extract content between markers
+                        cleaned_response = cleaned_response[first_marker_end+1:last_marker].strip()
+                    else:
+                        # Just remove the first marker if no closing marker
+                        cleaned_response = cleaned_response[first_marker_end+1:].strip()
+            
+            print(f"Cleaned response for JSON parsing: {cleaned_response[:100]}...")
+            
+            # Parse the cleaned response as JSON
+            analysis = json.loads(cleaned_response)
             
             # Update session with summary and assessment
             session.summary = analysis.get("summary")

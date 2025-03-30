@@ -20,7 +20,7 @@ async def get_predictive_analysis_service(request: Request) -> PredictiveAnalysi
     return request.app.state.predictive_analysis_service
 
 # Create router
-router = APIRouter()
+router = APIRouter(prefix="/legal-tools")
 
 @router.post("/predictive-analysis/case-outcome", response_model=Dict[str, Any])
 async def analyze_case_outcome(

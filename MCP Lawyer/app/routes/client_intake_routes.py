@@ -7,7 +7,8 @@ from ..models.client_intake_models import (
     IntakeFormSubmission, 
     AIInterviewSession,
     AIInterviewResponse,
-    CaseAssessment
+    CaseAssessment,
+    InterviewProcessRequest
 )
 
 router = APIRouter(prefix="/client-intake", tags=["client-intake"])
@@ -100,15 +101,24 @@ async def process_interview_responses(
     return await client_intake_service.process_interview_response(session_id, question_id, response_text)
 
 @router.post("/interview/process", response_model=AIInterviewResponse)
-@router.post("/client-intake/interview/process", response_model=AIInterviewResponse)
 async def process_interview_response_alt(
-    session_id: str = Body(..., description="ID of the interview session"),
-    user_response: str = Body(..., description="User's response for simplified API"),
+    request: InterviewProcessRequest,
     client_intake_service: ClientIntakeService = Depends(get_client_intake_service)
 ):
     """Process a response in an interview session and generate follow-up questions"""
-    # Using the simplified client API format
-    return await client_intake_service.process_interview_response(session_id, "current", user_response)
+    # Debug logging
+    print(f"DEBUG: Received interview process request: {request}")
+    
+    # Pass all parameters to the service method
+    try:
+        return await client_intake_service.process_interview_response(
+            request.session_id, 
+            request.question_id, 
+            request.user_response
+        )
+    except Exception as e:
+        print(f"DEBUG: Error processing interview response: {str(e)}")
+        raise
 
 @router.post("/interviews/{session_id}/complete", response_model=Dict[str, Any])
 async def complete_interview_session(
@@ -121,8 +131,20 @@ async def complete_interview_session(
 @router.post("/interview/complete", response_model=Dict[str, Any])
 @router.post("/client-intake/interview/complete", response_model=Dict[str, Any])
 async def complete_interview_session_alt(
-    session_id: str = Body(..., description="ID of the interview session to complete"),
+    request: dict = Body(..., description="Request containing the session ID"),
     client_intake_service: ClientIntakeService = Depends(get_client_intake_service)
 ):
     """Complete an interview session and generate a case assessment"""
-    return await client_intake_service.complete_interview(session_id)
+    # Debug logging
+    print(f"DEBUG: Received interview completion request: {request}")
+    
+    # Extract session_id from request body
+    session_id = request.get('session_id')
+    if not session_id:
+        raise HTTPException(status_code=422, detail="Missing required field: session_id")
+        
+    try:
+        return await client_intake_service.complete_interview(session_id)
+    except Exception as e:
+        print(f"DEBUG: Error completing interview: {str(e)}")
+        raise

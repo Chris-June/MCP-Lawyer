@@ -72,7 +72,7 @@ async def get_predictive_analysis_service(request: Request) -> 'PredictiveAnalys
     return request.app.state.predictive_analysis_service
 
 # Create router
-router = APIRouter()
+router = APIRouter(prefix="/legal-tools")
 
 # Legal Research Routes
 @router.get("/legal-research/case-law", response_model=Dict[str, Any])

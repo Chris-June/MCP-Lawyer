@@ -4,18 +4,45 @@ import { Moon, Sun } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { useTheme } from '@/components/theme-provider'
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu'
 
-const navItems = [
-  { path: '/', label: 'Home' },
-  { path: '/roles', label: 'Legal Experts' },
-  { path: '/chat', label: 'Legal Assistant' },
-  { path: '/documents', label: 'Documents' },
-  { path: '/document-automation', label: 'Document Automation' },
-  { path: '/clause-library', label: 'Clause Library' },
-  { path: '/legal-tools', label: 'Legal Tools' },
-  { path: '/client-intake', label: 'Client Intake' },
-  { path: '/contract-analysis', label: 'Contract Analysis' },
-  { path: '/predictive-analysis', label: 'Case Prediction' },
+const navGroups = [
+  {
+    label: 'Legal Experts',
+    items: [
+      { path: '/roles', label: 'Legal Experts' },
+      { path: '/chat', label: 'Legal Assistants' }
+    ]
+  },
+  {
+    label: 'Documents',
+    items: [
+      { path: '/documents', label: 'Documents' },
+      { path: '/document-automation', label: 'Document Automation' },
+      { path: '/clause-library', label: 'Clause Library' }
+    ]
+  },
+  {
+    label: 'Legal Tools',
+    items: [
+      { path: '/legal-tools', label: 'Legal Tools' },
+      { path: '/contract-analysis', label: 'Contract Analysis' },
+      { path: '/predictive-analysis', label: 'Case Prediction' }
+    ]
+  },
+  {
+    label: 'Client Management',
+    items: [
+      { path: '/client-intake', label: 'Client Intake' }
+    ]
+  }
 ]
 
 export default function Layout() {
@@ -33,20 +60,38 @@ export default function Layout() {
               transition={{ duration: 0.3 }}
             >
               <Link to="/" className="text-2xl font-bold text-primary">
-                Pathways Law
+                Noesis Law
               </Link>
             </motion.div>
           </div>
           
           <nav className="hidden md:flex items-center space-x-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`px-3 py-2 rounded-md transition-colors ${location.pathname === item.path ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted'}`}
-              >
-                {item.label}
-              </Link>
+            <Link
+              to="/"
+              className={`px-3 py-2 rounded-md transition-colors ${location.pathname === '/' ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted'}`}
+            >
+              Home
+            </Link>
+            {navGroups.map((group) => (
+              <DropdownMenu key={group.label}>
+                <DropdownMenuTrigger className={`px-3 py-2 rounded-md transition-colors hover:bg-muted ${group.items.some(item => location.pathname === item.path) ? 'bg-primary/10 text-primary font-medium' : ''}`}>
+                  {group.label}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>{group.label}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {group.items.map((item) => (
+                    <DropdownMenuItem key={item.path} asChild>
+                      <Link 
+                        to={item.path} 
+                        className={`w-full ${location.pathname === item.path ? 'bg-primary/10 text-primary font-medium' : ''}`}
+                      >
+                        {item.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             ))}
           </nav>
           
@@ -69,7 +114,7 @@ export default function Layout() {
       
       <footer className="border-t py-6 bg-muted/30 mt-8">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>Pathways Law Practice Management © {new Date().getFullYear()} | Owned by Danial Whittal</p>
+          <p>Noesis Practice Management {new Date().getFullYear()} | Powered by IntelliSync Solutions</p>
         </div>
       </footer>
     </div>

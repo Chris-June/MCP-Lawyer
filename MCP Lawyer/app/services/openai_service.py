@@ -1,7 +1,7 @@
 import os
 import json
 import aiohttp
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Union
 from fastapi import HTTPException, Request
 
 class OpenAIService:
@@ -20,22 +20,31 @@ class OpenAIService:
         }
     
     async def generate_completion(self, 
-                                messages: List[Dict[str, str]], 
+                                messages_or_prompt: Union[List[Dict[str, str]], str], 
                                 temperature: float = 0.7,
                                 max_tokens: Optional[int] = None,
-                                stream: bool = False) -> Dict[str, Any]:
+                                stream: bool = False) -> str:
         """Generate a completion from the OpenAI API
         
         Args:
-            messages: The messages to send to the API
+            messages_or_prompt: Either a list of message objects or a string prompt
             temperature: Controls randomness (0-1)
             max_tokens: Maximum tokens to generate (None = model default)
             stream: Whether to stream the response
             
         Returns:
-            The API response
+            The generated text response as a string
         """
         url = f"{self.api_base}/chat/completions"
+        
+        # Convert string prompt to messages format if needed
+        if isinstance(messages_or_prompt, str):
+            messages = [
+                {"role": "user", "content": messages_or_prompt}
+            ]
+            print(f"DEBUG: Converting string prompt to messages format: {messages}")
+        else:
+            messages = messages_or_prompt
         
         payload = {
             "model": self.model,
@@ -61,7 +70,9 @@ class OpenAIService:
                     if stream:
                         return response
                     else:
-                        return await response.json()
+                        response_json = await response.json()
+                        # Extract the text content from the response
+                        return await self.extract_text_from_completion(response_json)
             except aiohttp.ClientError as e:
                 raise HTTPException(
                     status_code=500,

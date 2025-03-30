@@ -105,3 +105,8 @@ class AIInterviewSession(BaseModel):
     lastUpdatedAt: datetime = Field(default_factory=datetime.now, description="When the session was last updated.")
     isComplete: bool = Field(False, description="Whether the interview is complete.")
     caseAssessment: Optional[CaseAssessment] = Field(None, description="Preliminary case assessment if available.")
+
+class InterviewProcessRequest(BaseModel):
+    session_id: str = Field(..., description="ID of the interview session")
+    question_id: str = Field(..., description="ID of the question being answered")
+    user_response: str = Field(..., description="User's response for the question")
