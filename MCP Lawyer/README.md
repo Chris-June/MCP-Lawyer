@@ -27,6 +27,7 @@ A comprehensive Canadian law practice management system that combines AI-powered
   - [Starting the Client](#starting-the-client)
   - [API Documentation](#api-documentation)
 - [Documentation](#documentation)
+  - [Service Documentation](#service-documentation)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
@@ -287,6 +288,25 @@ Noesis Law Practice Management includes comprehensive documentation for all feat
 - **API Reference**: Detailed API specifications and examples
 - **User Guides**: Step-by-step instructions for common workflows
 - **Development Guidelines**: Standards and best practices for contributing to the project
+
+### Service Documentation
+
+- [AI Processor Service](./docs/ai_processor.md)
+- [Citation Formatter Service](./docs/citation_formatter_service.md)
+- [Clause Library Service](./docs/clause_library_service.md)
+- [Client Intake Service](./docs/client_intake_service.md)
+- [Contract Analysis Service](./docs/contract_analysis_service.md)
+- [Court Filing Service](./docs/court_filing_service.md)
+- [Document Comparison Service](./docs/document_comparison_service.md)
+- [Document Template Service](./docs/document_template_service.md)
+- [Law Practice Service](./docs/law_practice_service.md)
+- [Legal Fee Calculator Service](./docs/legal_fee_calculator_service.md)
+- [Legal Research Service](./docs/legal_research_service.md)
+- [Memory Service](./docs/memory_service.md)
+- [OpenAI Service](./docs/openai_service.md)
+- [Precedent Service](./docs/precedent_service.md)
+- [Predictive Analysis Service](./docs/predictive_analysis_service.md)
+- [Role Service](./docs/role_service.md)
 
 ## Contributing
 
@@ -820,15 +840,3 @@ docker run -p 8000:8000 --env-file .env role-specific-mcp
 - Memory tagging and categorization system
 
 ---
-
-## About
-
-This documentation and software is authored by **IntelliSync Solutions**.
-
-**Development Team:**
-- **Lead Developer:** Christopher June
-
-Written by: Chris June
-Last Updated: March 29, 2025
-
- 2025 Noesis Law. All rights reserved. Product Owner: Christopher and IntelliSync Solutions.
