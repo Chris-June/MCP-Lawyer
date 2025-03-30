@@ -31,117 +31,117 @@ class ClauseLibraryService:
             Dictionary of clauses
         """
         return {
-            "confidentiality_basic": {
-                "name": "Basic Confidentiality Clause",
-                "description": "Standard confidentiality clause for general agreements",
-                "content": """The Receiving Party agrees to maintain the confidentiality of the Confidential Information and to not disclose, reproduce, summarize, or distribute the Confidential Information except as expressly permitted under this Agreement.""",
-                "practice_areas": ["general", "corporate", "commercial", "employment"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
-                "tags": ["confidentiality", "nda", "privacy"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "governing_law_ontario": {
-                "name": "Ontario Governing Law Clause",
-                "description": "Governing law clause for Ontario jurisdiction",
-                "content": """This Agreement shall be governed by and construed in accordance with the laws of the Province of Ontario and the federal laws of Canada applicable therein.""",
-                "practice_areas": ["general", "corporate", "commercial", "real_estate"],
-                "jurisdictions": ["ontario"],
-                "tags": ["governing law", "jurisdiction", "choice of law"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "limitation_of_liability_standard": {
-                "name": "Standard Limitation of Liability",
-                "description": "Standard limitation of liability clause for commercial agreements",
-                "content": """IN NO EVENT SHALL EITHER PARTY BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES, INCLUDING BUT NOT LIMITED TO, LOSS OF USE, DATA, OR PROFITS, OR BUSINESS INTERRUPTION, HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS AGREEMENT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.""",
-                "practice_areas": ["corporate", "commercial", "technology"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "federal"],
-                "tags": ["limitation of liability", "damages", "risk allocation"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "arbitration_clause_canadian": {
-                "name": "Canadian Arbitration Clause",
-                "description": "Standard arbitration clause for Canadian disputes",
-                "content": """Any dispute arising out of or in connection with this Agreement, including any question regarding its existence, validity or termination, shall be referred to and finally resolved by arbitration under the rules of the ADR Institute of Canada, which rules are deemed to be incorporated by reference into this clause. The seat of the arbitration shall be [City, Province]. The Tribunal shall consist of [one/three] arbitrator(s). The language of the arbitration shall be English.""",
-                "practice_areas": ["litigation", "corporate", "commercial", "alternative_dispute_resolution"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
-                "tags": ["arbitration", "dispute resolution", "ADR"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "force_majeure_canadian": {
-                "name": "Canadian Force Majeure Clause",
-                "description": "Force majeure clause adapted for Canadian law",
-                "content": """Neither party shall be liable for any failure or delay in performance under this Agreement to the extent such failure or delay is caused by circumstances beyond that party's reasonable control, including but not limited to acts of God, natural disasters, pandemic, epidemic, government restrictions, wars, terrorism, labor disputes, or civil unrest, provided that the affected party gives prompt written notice to the other party and makes all reasonable efforts to mitigate the effects of the force majeure event.""",
-                "practice_areas": ["corporate", "commercial", "real_estate"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
-                "tags": ["force majeure", "act of god", "impossibility"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "privacy_compliance_pipeda": {
-                "name": "PIPEDA Compliance Clause",
-                "description": "Privacy clause ensuring compliance with PIPEDA",
-                "content": """Each party shall comply with the Personal Information Protection and Electronic Documents Act (PIPEDA) and any applicable provincial privacy legislation with respect to any personal information collected, used, or disclosed pursuant to this Agreement. Each party shall implement appropriate technical and organizational measures to protect personal information against unauthorized or unlawful processing and against accidental loss, destruction, damage, alteration, or disclosure.""",
-                "practice_areas": ["privacy", "data_protection", "corporate", "technology"],
-                "jurisdictions": ["federal", "ontario", "british_columbia", "alberta"],
-                "tags": ["privacy", "PIPEDA", "data protection", "personal information"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "termination_for_convenience": {
-                "name": "Termination for Convenience",
-                "description": "Clause allowing termination without cause with notice",
-                "content": """Either party may terminate this Agreement for convenience upon providing [30/60/90] days' prior written notice to the other party.""",
-                "practice_areas": ["corporate", "commercial", "employment"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
-                "tags": ["termination", "convenience", "notice period"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "entire_agreement": {
-                "name": "Entire Agreement Clause",
-                "description": "Standard entire agreement/integration clause",
-                "content": """This Agreement constitutes the entire agreement between the parties with respect to the subject matter hereof and supersedes all prior and contemporaneous agreements, understandings, negotiations, and discussions, whether oral or written, relating to such subject matter.""",
-                "practice_areas": ["general", "corporate", "commercial", "real_estate"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
-                "tags": ["entire agreement", "integration", "merger"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "assignment_clause": {
-                "name": "Assignment Clause",
-                "description": "Standard clause restricting assignment of the agreement",
-                "content": """Neither party may assign this Agreement or any rights or obligations hereunder without the prior written consent of the other party, which consent shall not be unreasonably withheld. Any attempted assignment in violation of this provision shall be null and void. Notwithstanding the foregoing, either party may assign this Agreement to a successor in interest in connection with a merger, reorganization, or sale of all or substantially all of its assets or business to which this Agreement relates.""",
-                "practice_areas": ["corporate", "commercial"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
-                "tags": ["assignment", "transfer", "succession"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            },
-            "severability": {
-                "name": "Severability Clause",
-                "description": "Standard severability clause",
-                "content": """If any provision of this Agreement is held to be invalid, illegal, or unenforceable in any jurisdiction, such invalidity, illegality, or unenforceability shall not affect any other provision of this Agreement or invalidate or render unenforceable such provision in any other jurisdiction. Upon a determination that any provision is invalid, illegal, or unenforceable, the parties shall negotiate in good faith to modify this Agreement to effect the original intent of the parties as closely as possible.""",
-                "practice_areas": ["general", "corporate", "commercial"],
-                "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
-                "tags": ["severability", "enforceability", "partial invalidity"],
-                "version": "1.0",
-                "last_updated": "2025-03-29",
-                "author": "system"
-            }
-        }
+    "arbitration_clause_canadian": {
+        "name": "Canadian Arbitration Clause",
+        "description": "Standard arbitration clause for Canadian disputes",
+        "content": """Any dispute arising out of or in connection with this Agreement, including any question regarding its existence, validity or termination, shall be referred to and finally resolved by arbitration under the rules of the ADR Institute of Canada, which rules are deemed to be incorporated by reference into this clause. The seat of the arbitration shall be [City, Province]. The Tribunal shall consist of [one/three] arbitrator(s). The language of the arbitration shall be English.""",
+        "practice_areas": ["litigation", "corporate", "commercial", "alternative_dispute_resolution"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
+        "tags": ["arbitration", "dispute resolution", "ADR"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "assignment_clause": {
+        "name": "Assignment Clause",
+        "description": "Standard clause restricting assignment of the agreement",
+        "content": """Neither party may assign this Agreement or any rights or obligations hereunder without the prior written consent of the other party, which consent shall not be unreasonably withheld. Any attempted assignment in violation of this provision shall be null and void. Notwithstanding the foregoing, either party may assign this Agreement to a successor in interest in connection with a merger, reorganization, or sale of all or substantially all of its assets or business to which this Agreement relates.""",
+        "practice_areas": ["corporate", "commercial"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
+        "tags": ["assignment", "transfer", "succession"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "confidentiality_basic": {
+        "name": "Basic Confidentiality Clause",
+        "description": "Standard confidentiality clause for general agreements",
+        "content": """The Receiving Party agrees to maintain the confidentiality of the Confidential Information and to not disclose, reproduce, summarize, or distribute the Confidential Information except as expressly permitted under this Agreement.""",
+        "practice_areas": ["general", "corporate", "commercial", "employment"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
+        "tags": ["confidentiality", "nda", "privacy"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "entire_agreement": {
+        "name": "Entire Agreement Clause",
+        "description": "Standard entire agreement/integration clause",
+        "content": """This Agreement constitutes the entire agreement between the parties with respect to the subject matter hereof and supersedes all prior and contemporaneous agreements, understandings, negotiations, and discussions, whether oral or written, relating to such subject matter.""",
+        "practice_areas": ["general", "corporate", "commercial", "real_estate"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
+        "tags": ["entire agreement", "integration", "merger"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "force_majeure_canadian": {
+        "name": "Canadian Force Majeure Clause",
+        "description": "Force majeure clause adapted for Canadian law",
+        "content": """Neither party shall be liable for any failure or delay in performance under this Agreement to the extent such failure or delay is caused by circumstances beyond that party's reasonable control, including but not limited to acts of God, natural disasters, pandemic, epidemic, government restrictions, wars, terrorism, labor disputes, or civil unrest, provided that the affected party gives prompt written notice to the other party and makes all reasonable efforts to mitigate the effects of the force majeure event.""",
+        "practice_areas": ["corporate", "commercial", "real_estate"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
+        "tags": ["force majeure", "act of god", "impossibility"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "governing_law_ontario": {
+        "name": "Ontario Governing Law Clause",
+        "description": "Governing law clause for Ontario jurisdiction",
+        "content": """This Agreement shall be governed by and construed in accordance with the laws of the Province of Ontario and the federal laws of Canada applicable therein.""",
+        "practice_areas": ["general", "corporate", "commercial", "real_estate"],
+        "jurisdictions": ["ontario"],
+        "tags": ["governing law", "jurisdiction", "choice of law"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "limitation_of_liability_standard": {
+        "name": "Standard Limitation of Liability",
+        "description": "Standard limitation of liability clause for commercial agreements",
+        "content": """IN NO EVENT SHALL EITHER PARTY BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES, INCLUDING BUT NOT LIMITED TO, LOSS OF USE, DATA, OR PROFITS, OR BUSINESS INTERRUPTION, HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS AGREEMENT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.""",
+        "practice_areas": ["corporate", "commercial", "technology"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "federal"],
+        "tags": ["limitation of liability", "damages", "risk allocation"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "privacy_compliance_pipeda": {
+        "name": "PIPEDA Compliance Clause",
+        "description": "Privacy clause ensuring compliance with PIPEDA",
+        "content": """Each party shall comply with the Personal Information Protection and Electronic Documents Act (PIPEDA) and any applicable provincial privacy legislation with respect to any personal information collected, used, or disclosed pursuant to this Agreement. Each party shall implement appropriate technical and organizational measures to protect personal information against unauthorized or unlawful processing and against accidental loss, destruction, damage, alteration, or disclosure.""",
+        "practice_areas": ["privacy", "data_protection", "corporate", "technology"],
+        "jurisdictions": ["federal", "ontario", "british_columbia", "alberta"],
+        "tags": ["privacy", "PIPEDA", "data protection", "personal information"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "severability": {
+        "name": "Severability Clause",
+        "description": "Standard severability clause",
+        "content": """If any provision of this Agreement is held to be invalid, illegal, or unenforceable in any jurisdiction, such invalidity, illegality, or unenforceability shall not affect any other provision of this Agreement or invalidate or render unenforceable such provision in any other jurisdiction. Upon a determination that any provision is invalid, illegal, or unenforceable, the parties shall negotiate in good faith to modify this Agreement to effect the original intent of the parties as closely as possible.""",
+        "practice_areas": ["general", "corporate", "commercial"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
+        "tags": ["severability", "enforceability", "partial invalidity"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    },
+    "termination_for_convenience": {
+        "name": "Termination for Convenience",
+        "description": "Clause allowing termination without cause with notice",
+        "content": """Either party may terminate this Agreement for convenience upon providing [30/60/90] days' prior written notice to the other party.""",
+        "practice_areas": ["corporate", "commercial", "employment"],
+        "jurisdictions": ["ontario", "british_columbia", "alberta", "quebec", "federal"],
+        "tags": ["termination", "convenience", "notice period"],
+        "version": "1.0",
+        "last_updated": "2025-03-29",
+        "author": "system"
+    }
+}
     
     def _initialize_clause_categories(self) -> List[Dict[str, Any]]:
         """Initialize categories for organizing clauses

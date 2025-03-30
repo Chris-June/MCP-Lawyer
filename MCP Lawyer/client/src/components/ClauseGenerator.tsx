@@ -39,23 +39,34 @@ const ClauseGenerator: React.FC<ClauseGeneratorProps> = ({ onSaveClause }) => {
   // Custom clause types
   const clauseTypes = [
     { id: 'confidentiality', name: 'Confidentiality' },
-    { id: 'limitation_of_liability', name: 'Limitation of Liability' },
-    { id: 'indemnification', name: 'Indemnification' },
-    { id: 'termination', name: 'Termination' },
-    { id: 'governing_law', name: 'Governing Law' },
     { id: 'dispute_resolution', name: 'Dispute Resolution' },
     { id: 'force_majeure', name: 'Force Majeure' },
+    { id: 'governing_law', name: 'Governing Law' },
+    { id: 'indemnification', name: 'Indemnification' },
     { id: 'intellectual_property', name: 'Intellectual Property' },
+    { id: 'non_compete', name: 'Non-Compete' },
+    { id: 'non_solicitation', name: 'Non-Solicitation' },
     { id: 'payment_terms', name: 'Payment Terms' },
+    { id: 'severability', name: 'Severability' },
+    { id: 'termination', name: 'Termination' },
     { id: 'warranties', name: 'Warranties' },
   ];
   
   // Canadian jurisdictions
   const jurisdictions = [
-    { id: 'ontario', name: 'Ontario' },
-    { id: 'british_columbia', name: 'British Columbia' },
     { id: 'alberta', name: 'Alberta' },
+    { id: 'british_columbia', name: 'British Columbia' },
+    { id: 'manitoba', name: 'Manitoba' },
+    { id: 'new_brunswick', name: 'New Brunswick' },
+    { id: 'newfoundland_and_labrador', name: 'Newfoundland and Labrador' },
+    { id: 'nova_scotia', name: 'Nova Scotia' },
+    { id: 'ontario', name: 'Ontario' },
+    { id: 'prince_edward_island', name: 'Prince Edward Island' },
     { id: 'quebec', name: 'Quebec' },
+    { id: 'saskatchewan', name: 'Saskatchewan' },
+    { id: 'northwest_territories', name: 'Northwest Territories' },
+    { id: 'nunavut', name: 'Nunavut' },
+    { id: 'yukon', name: 'Yukon' },
     { id: 'federal', name: 'Federal' },
   ];
   
@@ -126,22 +137,84 @@ const ClauseGenerator: React.FC<ClauseGeneratorProps> = ({ onSaveClause }) => {
     if (!generatedClause) return;
     
     // Determine practice areas based on clause type
-    const practiceAreas = ['general'];
-    if (['confidentiality', 'intellectual_property'].includes(clauseType)) {
-      practiceAreas.push('corporate', 'commercial');
-    } else if (['limitation_of_liability', 'indemnification'].includes(clauseType)) {
-      practiceAreas.push('corporate', 'commercial', 'litigation');
-    } else if (['termination', 'payment_terms'].includes(clauseType)) {
-      practiceAreas.push('corporate', 'commercial', 'employment');
+    let practiceAreas: string[] = [];
+    
+    switch (clauseType) {
+      case 'confidentiality':
+      case 'intellectual_property':
+        practiceAreas = ['corporate', 'commercial', 'technology'];
+        break;
+      case 'indemnification':
+      case 'limitation_of_liability':
+        practiceAreas = ['corporate', 'commercial', 'litigation'];
+        break;
+      case 'termination':
+      case 'payment_terms':
+        practiceAreas = ['corporate', 'commercial', 'employment'];
+        break;
+      case 'governing_law':
+        practiceAreas = ['corporate', 'commercial', 'litigation', 'general'];
+        break;
+      case 'non_compete':
+      case 'non_solicitation':
+        practiceAreas = ['employment', 'corporate', 'technology'];
+        break;
+      case 'force_majeure':
+        practiceAreas = ['commercial', 'real_estate', 'environmental'];
+        break;
+      case 'dispute_resolution':
+        practiceAreas = ['litigation', 'commercial', 'employment'];
+        break;
+      case 'warranties':
+        practiceAreas = ['corporate', 'commercial', 'technology'];
+        break;
+      default:
+        practiceAreas = ['general'];
     }
     
-    // Determine tags based on clause type
-    const tags = [clauseType.replace('_', ' ')];
-    if (clauseType === 'confidentiality') {
-      tags.push('privacy', 'nda');
-    } else if (clauseType === 'governing_law') {
-      tags.push('jurisdiction', 'choice of law');
-    }
+   // Determine tags based on clause type
+const tags = [clauseType.replace('_', ' ')];
+
+switch (clauseType) {
+  case 'confidentiality':
+    tags.push('privacy', 'nda');
+    break;
+  case 'dispute_resolution':
+    tags.push('arbitration', 'mediation', 'litigation');
+    break;
+  case 'force_majeure':
+    tags.push('unforeseen events', 'contract suspension');
+    break;
+  case 'governing_law':
+    tags.push('jurisdiction', 'choice of law');
+    break;
+  case 'indemnification':
+    tags.push('liability', 'compensation');
+    break;
+  case 'intellectual_property':
+    tags.push('copyright', 'trademark', 'ownership');
+    break;
+  case 'non_compete':
+    tags.push('employment', 'restraint of trade');
+    break;
+  case 'non_solicitation':
+    tags.push('client protection', 'employment');
+    break;
+  case 'payment_terms':
+    tags.push('invoicing', 'due dates', 'billing');
+    break;
+  case 'severability':
+    tags.push('contract enforcement', 'clause independence');
+    break;
+  case 'termination':
+    tags.push('ending agreement', 'notice period');
+    break;
+  case 'warranties':
+    tags.push('guarantees', 'product assurance');
+    break;
+  default:
+    tags.push('general');
+}
     
     const newClause = {
       name: generatedClause.name,

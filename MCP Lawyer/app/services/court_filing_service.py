@@ -52,7 +52,67 @@ class CourtFilingService:
                 "rules_name": "Alberta Rules of Court",
                 "rules_url": "https://kings-printer.alberta.ca/documents/rules/rules_vol_1.pdf",
                 "practice_directions_url": "https://albertacourts.ca/kb/resources/practice-notes"
-            }
+            },
+            "manitoba_court": {
+    "name": "Court of King's Bench of Manitoba",
+    "rules_name": "Court of King's Bench Rules",
+    "rules_url": "https://web2.gov.mb.ca/laws/rules/forms.php",
+    "practice_directions_url": "https://www.manitobacourts.mb.ca/court-of-kings-bench/practice-directions/"
+},
+"new_brunswick_court": {
+    "name": "Court of King's Bench of New Brunswick",
+    "rules_name": "Rules of Court",
+    "rules_url": "https://www.gnb.ca/0062/regs/Rule-e.asp",
+    "practice_directions_url": "https://www.courtsnb-coursnb.ca/content/cour/en/rules-practice-directions.html"
+},
+"newfoundland_court": {
+    "name": "Supreme Court of Newfoundland and Labrador",
+    "rules_name": "Rules of the Supreme Court",
+    "rules_url": "https://www.court.nl.ca/supreme/rules/index.html",
+    "practice_directions_url": "https://www.court.nl.ca/supreme/practice-directions/index.html"
+},
+"nova_scotia_court": {
+    "name": "Supreme Court of Nova Scotia",
+    "rules_name": "Civil Procedure Rules",
+    "rules_url": "https://www.courts.ns.ca/supreme_court/rules",
+    "practice_directions_url": "https://www.courts.ns.ca/supreme_court/practice_directives"
+},
+"pei_court": {
+    "name": "Supreme Court of Prince Edward Island",
+    "rules_name": "Rules of Civil Procedure",
+    "rules_url": "https://www.princeedwardisland.ca/en/publication/supreme-court-civil-rules",
+    "practice_directions_url": "https://www.courts.pe.ca/en/supreme-court"
+},
+"quebec_superior": {
+    "name": "Superior Court of Quebec",
+    "rules_name": "Code of Civil Procedure",
+    "rules_url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/C-25.01",
+    "practice_directions_url": "https://www.tribunaux.qc.ca/c-superieure/anglais/index.html"
+},
+"saskatchewan_court": {
+    "name": "Court of King's Bench for Saskatchewan",
+    "rules_name": "King's Bench Rules",
+    "rules_url": "https://sasklawcourts.ca/kings-bench/rules/",
+    "practice_directions_url": "https://sasklawcourts.ca/kings-bench/practice-directives/"
+},
+"northwest_territories_court": {
+    "name": "Supreme Court of the Northwest Territories",
+    "rules_name": "Rules of Court",
+    "rules_url": "https://www.justice.gov.nt.ca/en/rules-of-court/",
+    "practice_directions_url": "https://www.nwtcourts.ca/en/supreme-court/"
+},
+"nunavut_court": {
+    "name": "Nunavut Court of Justice",
+    "rules_name": "Rules of Court",
+    "rules_url": "https://www.nunavutcourts.ca/index.php/rules",
+    "practice_directions_url": "https://www.nunavutcourts.ca/index.php/practice-directions"
+},
+"yukon_court": {
+    "name": "Supreme Court of Yukon",
+    "rules_name": "Rules of Court",
+    "rules_url": "https://yukoncourts.ca/rules/",
+    "practice_directions_url": "https://yukoncourts.ca/supreme-court/practice-directions/"
+}
         }
     
     def _initialize_filing_requirements(self) -> Dict[str, Dict[str, Any]]:

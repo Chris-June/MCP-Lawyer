@@ -209,7 +209,7 @@ Format your response as a valid JSON object that matches the CaseAssessment mode
             session_id = f"interview_{uuid.uuid4().hex}"
             
             # Initialize with standard first questions based on practice area
-            initial_questions = self._get_initial_questions(practice_area, case_type)
+            initial_questions = await self._get_initial_questions(practice_area, case_type)
             
             session = AIInterviewSession(
                 sessionId=session_id,
@@ -229,26 +229,52 @@ Format your response as a valid JSON object that matches the CaseAssessment mode
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to create interview session: {str(e)}")
     
-    def _get_initial_questions(self, practice_area: str, case_type: Optional[str] = None) -> List[AIInterviewQuestion]:
-        """Get initial questions based on practice area and case type"""
-        # Basic questions that apply to most practice areas
-        basic_questions = [
-            AIInterviewQuestion(
-                id=f"q_{uuid.uuid4().hex}",
-                question="Could you please describe your legal issue in your own words?",
-                intent="Understanding the client's perspective and main concerns"
-            ),
-            AIInterviewQuestion(
-                id=f"q_{uuid.uuid4().hex}",
-                question="When did this issue first arise?",
-                intent="Establishing timeline and potential limitations issues"
-            )
-        ]
-        
-        # Additional questions can be added based on practice area and case type
-        # This would be expanded with a more comprehensive question bank
-        
-        return basic_questions
+    async def _get_initial_questions(self, practice_area: str, case_type: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Dynamically generate initial questions based on practice area and case type"""
+        prompt = f"""As a legal intake assistant, generate a logically ordered list of 8-10 thoughtful intake questions for a client involved in a '{case_type}' case under the '{practice_area}' area of law in Canada.
+ 
+Ensure the questions help gather:
+1. Client's background/context
+2. Specific legal issue details
+3. Timeline and documentation
+4. Financial or emotional stakes
+5. Desired outcomes
+ 
+Respond in JSON format as:
+[
+  {{
+    "question": "Question text",
+    "intent": "What this question is trying to uncover"
+  }}
+]
+"""
+ 
+        try:
+            response = await self.openai_service.generate_completion(prompt)
+ 
+            # Clean markdown formatting if needed
+            if response.startswith('```'):
+                first_marker_end = response.find('\n', 3)
+                if first_marker_end != -1:
+                    last_marker = response.rfind('```')
+                    if last_marker > first_marker_end:
+                        response = response[first_marker_end+1:last_marker].strip()
+                    else:
+                        response = response[first_marker_end+1:].strip()
+ 
+            parsed = json.loads(response)
+ 
+            return [
+                AIInterviewQuestion(
+                    id=f"q_{uuid.uuid4().hex}",
+                    question=item["question"],
+                    intent=item["intent"]
+                )
+                for item in parsed
+            ]
+        except Exception as e:
+            print(f"Failed to generate initial questions: {e}")
+            raise HTTPException(status_code=500, detail="Failed to generate initial questions from AI model.")
     
     async def process_interview_response(self, session_id: str, question_id: str, response_text: str) -> AIInterviewResponse:
         """Process a response in an interview session and generate follow-up questions"""

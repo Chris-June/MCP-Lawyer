@@ -37,6 +37,16 @@ class ContractAnalysisService:
                 ClauseCategory.TERMINATION: 1.2,
                 ClauseCategory.CONFIDENTIALITY: 1.0,
                 ClauseCategory.INTELLECTUAL_PROPERTY: 1.3,
+                ClauseCategory.GOVERNING_LAW: 1.0,
+                ClauseCategory.DISPUTE_RESOLUTION: 1.2,
+                ClauseCategory.PAYMENT_TERMS: 1.1,
+                ClauseCategory.REPRESENTATIONS_WARRANTIES: 1.3,
+                ClauseCategory.NON_COMPETE: 1.2,
+                ClauseCategory.NON_SOLICITATION: 1.2,
+                ClauseCategory.ASSIGNMENT: 1.0,
+                ClauseCategory.ENTIRE_AGREEMENT: 0.9,
+                ClauseCategory.SEVERABILITY: 0.8,
+                ClauseCategory.PRIVACY_COMPLIANCE: 1.4,
                 # Other categories would have default weights
             }
         )

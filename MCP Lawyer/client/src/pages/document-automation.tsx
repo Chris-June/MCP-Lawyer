@@ -62,11 +62,26 @@ const DocumentAutomationPage: React.FC = () => {
   
   // Document types
   const documentTypes = [
+    { id: 'affidavit', name: 'Affidavit' },
     { id: 'agreement', name: 'Agreement' },
+    { id: 'board resolution', name: 'Board Resolution' },
+    { id: 'compliance', name: 'Compliance Certificate' },
+    { id: 'consulting', name: 'Consulting Agreement' },
     { id: 'contract', name: 'Contract' },
+    { id: 'disclaimer', name: 'Disclaimer' },
+    { id: 'eula', name: 'End User License Agreement' },
+    { id: 'employment', name: 'Employment Agreement' },
     { id: 'letter', name: 'Letter' },
+    { id: 'loa', name: 'Letter of Agreement' },
     { id: 'memo', name: 'Memorandum' },
+    { id: 'nda', name: 'Non-Disclosure Agreement' },
+    { id: 'notice', name: 'Notice Letter' },
+    { id: 'partnership', name: 'Partnership Agreement' },
     { id: 'policy', name: 'Policy' },
+    { id: 'privacy', name: 'Privacy Policy' },
+    { id: 'release', name: 'Release Form' },
+    { id: 'terms', name: 'Terms and Conditions' },
+    { id: 'termination', name: 'Termination Notice' },
   ];
   
   // Handle adding a clause to the document
@@ -273,10 +288,21 @@ const DocumentAutomationPage: React.FC = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All</SelectItem>
-                      <SelectItem value="general">General</SelectItem>
-                      <SelectItem value="corporate">Corporate</SelectItem>
+                      <SelectItem value="banking">Banking</SelectItem>
                       <SelectItem value="commercial">Commercial</SelectItem>
+                      <SelectItem value="corporate">Corporate</SelectItem>
+                      <SelectItem value="criminal">Criminal</SelectItem>
+                      <SelectItem value="employment">Employment</SelectItem>
+                      <SelectItem value="environmental">Environmental</SelectItem>
+                      <SelectItem value="family">Family</SelectItem>
+                      <SelectItem value="general">General</SelectItem>
+                      <SelectItem value="immigration">Immigration</SelectItem>
+                      <SelectItem value="intellectual_property">Intellectual Property</SelectItem>
+                      <SelectItem value="litigation">Litigation</SelectItem>
                       <SelectItem value="real_estate">Real Estate</SelectItem>
+                      <SelectItem value="tax">Tax</SelectItem>
+                      <SelectItem value="technology">Technology</SelectItem>
+                      <SelectItem value="wills_estates">Wills & Estates</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -296,17 +322,26 @@ const DocumentAutomationPage: React.FC = () => {
                     value={jurisdiction}
                     onValueChange={setJurisdiction}
                   >
-                    <SelectTrigger id="filter-jurisdiction">
-                      <SelectValue placeholder="All" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      <SelectItem value="ontario">Ontario</SelectItem>
-                      <SelectItem value="british_columbia">British Columbia</SelectItem>
-                      <SelectItem value="alberta">Alberta</SelectItem>
-                      <SelectItem value="quebec">Quebec</SelectItem>
-                      <SelectItem value="federal">Federal</SelectItem>
-                    </SelectContent>
+                  <SelectTrigger id="filter-jurisdiction">
+                    <SelectValue placeholder="All" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
+                    <SelectItem value="alberta">Alberta</SelectItem>
+                    <SelectItem value="british_columbia">British Columbia</SelectItem>
+                    <SelectItem value="manitoba">Manitoba</SelectItem>
+                    <SelectItem value="new_brunswick">New Brunswick</SelectItem>
+                    <SelectItem value="newfoundland_and_labrador">Newfoundland and Labrador</SelectItem>
+                    <SelectItem value="nova_scotia">Nova Scotia</SelectItem>
+                    <SelectItem value="ontario">Ontario</SelectItem>
+                    <SelectItem value="prince_edward_island">Prince Edward Island</SelectItem>
+                    <SelectItem value="quebec">Quebec</SelectItem>
+                    <SelectItem value="saskatchewan">Saskatchewan</SelectItem>
+                    <SelectItem value="northwest_territories">Northwest Territories</SelectItem>
+                    <SelectItem value="nunavut">Nunavut</SelectItem>
+                    <SelectItem value="yukon">Yukon</SelectItem>
+                    <SelectItem value="federal">Federal</SelectItem>
+                  </SelectContent>
                   </Select>
                 </div>
               </div>

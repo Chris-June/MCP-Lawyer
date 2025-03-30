@@ -26,10 +26,15 @@ class ClauseCategory(str, Enum):
     PAYMENT_TERMS = "payment_terms"
     REPRESENTATIONS_WARRANTIES = "representations_warranties"
     DISPUTE_RESOLUTION = "dispute_resolution"
+    NON_COMPETE = "non_compete"
+    NON_SOLICITATION = "non_solicitation"
     ASSIGNMENT = "assignment"
     AMENDMENT = "amendment"
     NOTICES = "notices"
     DEFINITIONS = "definitions"
+    ENTIRE_AGREEMENT = "entire_agreement"
+    SEVERABILITY = "severability"
+    PRIVACY_COMPLIANCE = "privacy_compliance"
     OTHER = "other"
 
 

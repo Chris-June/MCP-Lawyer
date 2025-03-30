@@ -205,15 +205,23 @@ const ClauseLibraryPage: React.FC = () => {
                     <SelectValue placeholder="All Practice Areas" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Practice Areas</SelectItem>
-                    <SelectItem value="general">General</SelectItem>
-                    <SelectItem value="corporate">Corporate</SelectItem>
-                    <SelectItem value="commercial">Commercial</SelectItem>
-                    <SelectItem value="real_estate">Real Estate</SelectItem>
-                    <SelectItem value="litigation">Litigation</SelectItem>
-                    <SelectItem value="employment">Employment</SelectItem>
-                    <SelectItem value="technology">Technology</SelectItem>
-                    <SelectItem value="privacy">Privacy</SelectItem>
+                  <SelectItem value="all">All Practice Areas</SelectItem>
+                  <SelectItem value="banking">Banking</SelectItem>
+                  <SelectItem value="commercial">Commercial</SelectItem>
+                  <SelectItem value="corporate">Corporate</SelectItem>
+                  <SelectItem value="criminal">Criminal</SelectItem>
+                  <SelectItem value="employment">Employment</SelectItem>
+                  <SelectItem value="environmental">Environmental</SelectItem>
+                  <SelectItem value="family">Family</SelectItem>
+                  <SelectItem value="general">General</SelectItem>
+                  <SelectItem value="immigration">Immigration</SelectItem>
+                  <SelectItem value="intellectual_property">Intellectual Property</SelectItem>
+                  <SelectItem value="litigation">Litigation</SelectItem>
+                  <SelectItem value="privacy">Privacy</SelectItem>
+                  <SelectItem value="real_estate">Real Estate</SelectItem>
+                  <SelectItem value="tax">Tax</SelectItem>
+                  <SelectItem value="technology">Technology</SelectItem>
+                  <SelectItem value="wills_estates">Wills & Estates</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -239,10 +247,19 @@ const ClauseLibraryPage: React.FC = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Jurisdictions</SelectItem>
-                    <SelectItem value="ontario">Ontario</SelectItem>
-                    <SelectItem value="british_columbia">British Columbia</SelectItem>
                     <SelectItem value="alberta">Alberta</SelectItem>
+                    <SelectItem value="british_columbia">British Columbia</SelectItem>
+                    <SelectItem value="manitoba">Manitoba</SelectItem>
+                    <SelectItem value="new_brunswick">New Brunswick</SelectItem>
+                    <SelectItem value="newfoundland_and_labrador">Newfoundland and Labrador</SelectItem>
+                    <SelectItem value="nova_scotia">Nova Scotia</SelectItem>
+                    <SelectItem value="ontario">Ontario</SelectItem>
+                    <SelectItem value="prince_edward_island">Prince Edward Island</SelectItem>
                     <SelectItem value="quebec">Quebec</SelectItem>
+                    <SelectItem value="saskatchewan">Saskatchewan</SelectItem>
+                    <SelectItem value="northwest_territories">Northwest Territories</SelectItem>
+                    <SelectItem value="nunavut">Nunavut</SelectItem>
+                    <SelectItem value="yukon">Yukon</SelectItem>
                     <SelectItem value="federal">Federal</SelectItem>
                   </SelectContent>
                 </Select>
@@ -401,7 +418,7 @@ const ClauseLibraryPage: React.FC = () => {
                     </Tooltip>
                   </div>
                   <div className="grid grid-cols-2 gap-2 mt-2">
-                    {['general', 'corporate', 'commercial', 'real_estate', 'litigation', 'employment', 'technology', 'privacy'].map((area: string) => (
+                    {['banking', 'commercial', 'corporate', 'criminal', 'employment', 'environmental', 'family', 'general', 'immigration', 'intellectual_property', 'litigation', 'privacy', 'real_estate', 'tax', 'technology', 'wills_estates'].map((area: string) => (
                       <div key={area} className="flex items-center space-x-2">
                         <Checkbox 
                           id={`practice-${area}`}
@@ -433,7 +450,22 @@ const ClauseLibraryPage: React.FC = () => {
                     </Tooltip>
                   </div>
                   <div className="grid grid-cols-2 gap-2 mt-2">
-                    {['ontario', 'british_columbia', 'alberta', 'quebec', 'federal'].map((j: string) => (
+                  {[
+                    'alberta',
+                    'british_columbia',
+                    'manitoba',
+                    'new_brunswick',
+                    'newfoundland_and_labrador',
+                    'nova_scotia',
+                    'ontario',
+                    'prince_edward_island',
+                    'quebec',
+                    'saskatchewan',
+                    'northwest_territories',
+                    'nunavut',
+                    'yukon',
+                    'federal'
+                  ].map((j: string) => (
                       <div key={j} className="flex items-center space-x-2">
                         <Checkbox 
                           id={`jurisdiction-${j}`}
