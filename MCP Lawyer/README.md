@@ -2,14 +2,20 @@
 
 *Product Owner: Christopher and IntelliSync Solutions*
 
-A comprehensive Canadian law practice management system that combines AI-powered legal expertise with document automation, deadline tracking, and client management tools. Built with FastAPI, React, and OpenAI integration.
+A comprehensive Canadian law practice management system that combines AI-powered legal expertise with document automation, deadline tracking, and client management tools. Built with modern web technologies and AI integration.
 
 ![Noesis Law Practice Management](https://via.placeholder.com/800x400?text=Noesis+Law+Practice+Management)
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Features](#features)
+- [Key Features](#key-features)
+  - [Legal AI Assistants](#legal-ai-assistants)
+  - [Document Automation System](#document-automation-system)
+  - [Client Intake and Consultation](#client-intake-and-consultation)
+  - [Legal Tools Suite](#legal-tools-suite)
+  - [Practice Management](#practice-management)
+- [Technology Stack](#technology-stack)
 - [Architecture](#architecture)
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
@@ -20,76 +26,306 @@ A comprehensive Canadian law practice management system that combines AI-powered
   - [Starting the Server](#starting-the-server)
   - [Starting the Client](#starting-the-client)
   - [API Documentation](#api-documentation)
-- [Core Components](#core-components)
-  - [Legal Experts](#legal-experts)
-  - [Document Management](#document-management)
-  - [Legal Tools](#legal-tools)
-  - [Client Intake](#client-intake)
-- [Client Interface](#client-interface)
-  - [Expert Management](#expert-management)
-  - [Legal Assistant](#legal-assistant)
-  - [Document Generation](#document-generation)
-  - [Deadline Calculator](#deadline-calculator)
-- [Canadian Law Features](#canadian-law-features)
-  - [Provincial Jurisdictions](#provincial-jurisdictions)
-  - [Legal Document Templates](#legal-document-templates)
-  - [Limitation Periods](#limitation-periods)
+- [Documentation](#documentation)
 - [Development](#development)
-  - [Project Structure](#project-structure)
-  - [Adding New Features](#adding-new-features)
-- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
 
-Pathways Law Practice Management is a comprehensive solution designed specifically for Canadian law firms. It combines AI-powered legal expertise with practical tools for document automation, deadline tracking, and client management. The system streamlines common legal workflows while providing jurisdiction-specific guidance across various practice areas.
+Noesis Law Practice Management is a full-featured application designed specifically for Canadian legal professionals. It combines advanced AI technology with practical law firm management tools, creating a seamless experience for legal practitioners across various practice areas.
 
-This application enables legal professionals to:
+The system leverages GPT-4o-mini to provide intelligent assistance in legal research, document preparation, client intake, and case analysis. Through a modular architecture and modern tech stack, Noesis delivers an intuitive interface with powerful backend capabilities tailored to the unique requirements of Canadian law practice.
 
-1. Access specialized Canadian legal expertise across multiple practice areas and jurisdictions
-2. Generate customized legal documents based on Canadian law with automated templates
-3. Calculate important legal deadlines based on provincial rules and limitation periods
-4. Streamline client intake with practice-specific forms and validation
-5. Analyze legal issues with AI assistance tailored to Canadian legal frameworks
-3. Process queries through OpenAI's GPT models with dynamically constructed, contextually relevant prompts
-4. Interact with AI roles through a modern React client interface
+## Key Features
 
-## Features
+### Legal AI Assistants
 
-### Legal Expertise
-- **Specialized Legal Experts**: Access AI-powered legal expertise across various Canadian practice areas
-- **Jurisdiction-Specific Guidance**: Get advice tailored to provincial and federal Canadian law
-- **Legal Research Assistance**: Search and analyze Canadian legal resources and case law
+- **Legal Domain Experts**: Specialized AI assistants trained for various legal practice areas including Corporate Law, Family Law, Criminal Defense, Real Estate, Litigation, and more
+- **Research Assistant**: AI-powered legal research with case law retrieval, statute interpretation, and automatic citation formatting
+- **Court Preparation**: Generates court filings, arguments, and document checklists for Canadian courts
+- **Jurisdiction-Aware Advice**: Provides legal guidance specific to Canadian federal law and provincial jurisdictions
+- **Precedent Analysis**: Reviews and summarizes relevant case law with key points and applications
 
-### Document Management
-- **Document Templates**: Access a library of Canadian legal document templates
-- **Document Generation**: Create customized legal documents with AI assistance
-- **Document Export**: Download documents in markdown format or copy to clipboard
+### Document Automation System
 
-### Legal Tools
-- **Deadline Calculator**: Calculate legal deadlines based on Canadian court rules and limitation periods
-- **Calendar Integration**: Export deadlines to calendar applications with .ics files
-- **Legal Issue Analysis**: Get AI-powered analysis of legal issues under Canadian law
-- **Legal Research Tool**: Search legal databases for relevant case law and legislation
-- **Citation Formatter**: Format legal citations according to Canadian citation standards
-- **Document Comparison**: Compare different versions of legal documents with highlighted differences
-- **Legal Fee Calculator**: Estimate legal fees based on matter type, complexity, and service structure
-- **Court Filing Assistant**: Generate checklists and instructions for court filings across jurisdictions
+- **Template Management**: Comprehensive system for creating, storing, and versioning legal document templates
+- **Dynamic Document Assembly**: Intelligent document generation with conditional sections and clause libraries
+- **Document Variables**: Flexible template system with nested variables and conditional logic
+- **Client Data Integration**: Seamless incorporation of client information into generated documents
+- **Provincial Variations**: Support for jurisdiction-specific document requirements
+- **Export Options**: Multiple export formats including PDF, DOCX, and markdown
+- **Version Control**: Document history tracking with comparison tools
+
+### Client Intake and Consultation
+
+- **Customizable Intake Forms**: Practice area-specific intake forms with conditional fields and validation
+- **AI-Powered Interviews**: Intelligent interview system for gathering case information through natural conversation
+- **Preliminary Case Assessment**: Automated analysis of potential cases with strengths, weaknesses, and recommended actions
+- **Form Builder Interface**: Drag-and-drop interface for creating and customizing intake forms
+- **Client Portal Integration**: Secure client access for form submission and document sharing
+- **Data Validation**: Comprehensive validation rules to ensure data quality
+
+### Legal Tools Suite
+
+- **Deadline Calculator**: Jurisdiction-aware calculation of legal deadlines and limitation periods with calendar integration
+- **Citation Formatter**: Automatic formatting of legal citations in multiple Canadian citation styles
+- **Document Comparison**: Side-by-side comparison of legal documents with highlighted differences
+- **Clause Extraction**: Intelligent extraction and categorization of clauses from legal documents
+- **Legal Fee Calculator**: Calculation of legal fees based on hourly rates, contingency fees, and fee agreements
+- **Court Filing Assistant**: Provincial court-specific checklists and requirements for filing documents
+- **Legal Research Tool**: Case law and legislation search with relevance scoring
+- **Contract Analysis**: Risk assessment and term highlighting for contract review
 
 ### Practice Management
-- **Client Intake Forms**: Streamlined client onboarding with practice-specific forms
-- **Form Validation**: Ensure all required client information is collected properly
-- **Progress Tracking**: Monitor completion status of client intake forms
 
-### Technical Implementation
-- **Modern Stack**: Built with React, TypeScript, TailwindCSS, and shadcn/ui components
-- **AI Integration**: Seamless integration with OpenAI's GPT-4o-mini model
-- **Responsive Design**: Works on desktop and mobile devices with dark/light mode support
-- **State Management**: Efficient data handling with React Query for API interactions
-- **Enhanced UX**: Contextual tooltips and improved placeholder text for better user guidance
+- **Case Management**: Organization of client matters with document linking and status tracking
+- **Task Tracking**: Assignment and monitoring of legal tasks with deadlines and priorities
+- **Time Recording**: Tracking of billable hours with automatic categorization
+- **Client Communications**: Secure messaging and document sharing with clients
+- **Conflict Checking**: Automated conflict of interest detection for new matters
+- **Calendar Integration**: Synchronization with external calendars for court dates and deadlines
+- **File Notes**: Structured note-taking for client meetings and case developments
+
+## Technology Stack
+
+### Frontend
+
+- **Framework**: React with TypeScript for type safety
+- **Styling**: TailwindCSS v4 for utility-based styling
+- **UI Components**: shadcn/ui for consistent, accessible components
+- **Animations**: Framer Motion for smooth transitions and interactions
+- **Build Tool**: Vite for fast development and optimized production builds
+- **State Management**: React Query for server state and context API for local state
+- **Routing**: React Router for application navigation
+
+### Backend
+
+- **Server**: NodeJS with Express for API routing
+- **API Framework**: FastAPI for performant Python-based endpoints
+- **AI Integration**: OpenAI API with GPT-4o-mini model
+- **Database**: Structured data storage with proper relationships
+- **Authentication**: Secure user authentication and authorization
 
 ## Architecture
+
+Noesis uses a clean, modular architecture with clear separation of concerns:
+
+```
+┌───────────────┐      ┌───────────────┐      ┌───────────────┐
+│   Frontend    │      │    Backend     │      │  AI Services  │
+│   (React)     │◄────►│   (FastAPI)    │◄────►│  (GPT-4o-mini) │
+└───────────────┘      └───────────────┘      └───────────────┘
+       │                       │                      │
+       ▼                       ▼                      ▼
+┌───────────────┐      ┌───────────────┐      ┌───────────────┐
+│ UI Components │      │  API Routes   │      │ Prompt Mgmt   │
+│ Pages & State │      │  Services     │      │ Context System │
+└───────────────┘      └───────────────┘      └───────────────┘
+```
+
+### Key Architectural Components
+
+#### Frontend Architecture
+
+- **Component Library**: Reusable UI components built with shadcn/ui and TailwindCSS
+- **Page Structure**: Organized by feature with consistent layouts and navigation
+- **API Integration**: Centralized API client with proper typing and error handling
+- **State Management**: React Query for server state with optimistic updates
+
+#### Backend Architecture
+
+- **Routing Layer**: FastAPI routes organized by feature domain
+- **Service Layer**: Business logic separated from routes for better testability
+- **Data Models**: Structured Pydantic models with validation
+- **AI Integration**: Centralized AI processor with model context protocol (MCP)
+
+#### MCP (Model Context Protocol)
+
+The Model Context Protocol is a proprietary system for enhancing AI interactions:
+
+- **Context Management**: Structured approach to managing conversation context
+- **Memory System**: Storage and retrieval of important information for AI assistants
+- **Role Management**: Dynamic role-based instructions and behaviors
+- **Domain-Specific Knowledge**: Integration of Canadian legal knowledge
+
+## Installation
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+ and npm
+- OpenAI API key
+
+### Server Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/noesis-law-management.git
+cd noesis-law-management
+```
+
+2. Create and activate a virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install server dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Client Setup
+
+1. Navigate to the client directory:
+
+```bash
+cd client
+```
+
+2. Install client dependencies:
+
+```bash
+npm install
+```
+
+### Environment Configuration
+
+1. Create a `.env` file in the root directory based on the example:
+
+```bash
+cp .env.example .env
+```
+
+2. Open the `.env` file and configure the following variables:
+
+```
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-4o-mini  # The model to use for AI processing
+SERVER_HOST=0.0.0.0  # Host to bind the server to
+SERVER_PORT=8000  # Port to run the server on
+```
+
+## Usage
+
+### Starting the Server
+
+1. From the root directory, with the virtual environment activated:
+
+```bash
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+The server will be available at http://localhost:8000.
+
+### Starting the Client
+
+1. From the client directory:
+
+```bash
+npm run dev
+```
+
+The client will be available at http://localhost:5173.
+
+### API Documentation
+
+- Access the API documentation at http://localhost:8000/docs to explore available endpoints
+- Detailed API specifications are available in the `/docs` directory
+
+## Documentation
+
+Noesis Law Practice Management includes comprehensive documentation for all features:
+
+- **Feature Documentation**: Each major feature has its own documentation file in the `/docs` directory:
+  - [Client Intake System](/docs/client-intake-system.md)
+  - [Document Automation](/docs/document-automation.md)
+  - [Legal Tools Suite](/docs/legal-tools.md)
+
+- **API Reference**: Detailed API specifications and examples
+- **User Guides**: Step-by-step instructions for common workflows
+- **Development Guidelines**: Standards and best practices for contributing to the project
+
+## Development
+
+### Project Structure
+
+```
+/
+├── app/                # Backend FastAPI application
+│   ├── main.py        # Application entry point
+│   ├── config.py      # Configuration management
+│   ├── dependencies/  # Dependency injection
+│   ├── models/        # Data models and schemas
+│   ├── routes/        # API endpoints
+│   ├── services/      # Business logic
+│   └── utils/         # Helper functions
+│
+├── client/            # Frontend React application
+│   ├── public/        # Static files
+│   ├── src/           # Source code
+│   │   ├── components/  # Reusable UI components
+│   │   ├── hooks/       # Custom React hooks
+│   │   ├── lib/         # Utility libraries
+│   │   ├── pages/       # Page components
+│   │   ├── types/       # TypeScript type definitions
+│   │   └── App.tsx      # Main application component
+│   ├── vite.config.ts # Vite configuration
+│   └── package.json   # Dependencies and scripts
+│
+├── docs/             # Documentation
+├── tests/            # Test suite
+├── .env.example     # Example environment variables
+└── requirements.txt  # Python dependencies
+```
+
+### Adding New Features
+
+1. **Plan Your Feature**:
+   - Define requirements and design the feature
+   - Consider both frontend and backend implications
+
+2. **Backend Implementation**:
+   - Create models in `app/models/`
+   - Implement business logic in `app/services/`
+   - Add API endpoints in `app/routes/`
+
+3. **Frontend Implementation**:
+   - Add API functions in `client/src/lib/api.ts`
+   - Create UI components in `client/src/components/`
+   - Implement page components in `client/src/pages/`
+
+4. **Testing**:
+   - Write tests for new functionality
+   - Test both backend and frontend components
+
+5. **Documentation**:
+   - Create or update feature documentation in `/docs/`
+   - Update README.md if necessary
+
+## Contributing
+
+Contributions to Noesis Law Practice Management are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please ensure your code follows the project's coding standards and includes appropriate tests and documentation.
+
+## License
+
+Copyright © 2025 Christopher and IntelliSync Solutions. All rights reserved.
+
+---
+
+*Last Updated: March 29, 2025*
 
 ### System Architecture
 
