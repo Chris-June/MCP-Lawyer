@@ -1,6 +1,11 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { fetchClientIntakeForm, submitClientIntakeForm, fetchPracticeAreas, analyzeClientIntakeForm } from '@/lib/api'
+import { 
+  fetchClientIntakeForm, 
+  submitClientIntakeForm, 
+  fetchPracticeAreas, 
+  analyzeClientIntakeForm
+} from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -16,10 +21,19 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import IntakeFormAnalytics from '@/components/IntakeFormAnalytics'
 import { motion } from 'framer-motion'
 import { debounce } from '@/lib/utils'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import AIInterview from '@/components/AIInterview'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
 
 export default function ClientIntakePage() {
   const { toast } = useToast()
   const queryClient = useQueryClient()
+  
+  // State for intake method tabs
+  const [activeTab, setActiveTab] = useState<string>('form')
+  
+  // Traditional form state
   const [selectedPracticeArea, setSelectedPracticeArea] = useState<string>('')
   const [formValues, setFormValues] = useState<Record<string, string>>({}) 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({}) 
@@ -28,6 +42,10 @@ export default function ClientIntakePage() {
   const [formSaved, setFormSaved] = useState(false)
   const [analysis, setAnalysis] = useState<any>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  
+  // AI Interview state
+  const [interviewCompleted, setInterviewCompleted] = useState(false)
+  const [interviewResult, setInterviewResult] = useState<any>(null)
 
   // Fetch available practice areas for the dropdown
   const { data: practiceAreas, isLoading: isLoadingPracticeAreas } = useQuery<PracticeArea[]>({
@@ -262,17 +280,47 @@ export default function ClientIntakePage() {
     }
   };
 
+  // Handle completed AI interview
+  const handleInterviewComplete = (result: any) => {
+    setInterviewCompleted(true)
+    setInterviewResult(result)
+    
+    // Show success message
+    toast({
+      title: "Interview Completed",
+      description: "AI interview has been completed and case assessment generated."
+    })
+  }
+  
   return (
     <TooltipProvider>
-    <div className="container mx-auto p-4 md:p-8">
-      <Card className="max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold flex items-center gap-2">
-            <ClipboardList className="h-6 w-6" />
-            Client Intake Form
-          </CardTitle>
-          <CardDescription>Please select a practice area and fill out the required information.</CardDescription>
-        </CardHeader>
+      <div className="container mx-auto p-4 md:p-8">
+        <div className="max-w-4xl mx-auto mb-6">
+          <h1 className="text-3xl font-bold mb-2">Client Intake System</h1>
+          <p className="text-muted-foreground">Choose your preferred intake method below.</p>
+        </div>
+        
+        <Tabs defaultValue="form" onValueChange={setActiveTab} className="max-w-4xl mx-auto">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="form" className="flex items-center justify-center">
+              <ClipboardList className="h-4 w-4 mr-2" />
+              <span>Traditional Form</span>
+            </TabsTrigger>
+            <TabsTrigger value="ai-interview" className="flex items-center justify-center">
+              <Badge variant="outline" className="mr-2">AI</Badge>
+              <span>Interactive Interview</span>
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="form">
+            <Card className="max-w-4xl mx-auto">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                  <ClipboardList className="h-6 w-6" />
+                  Client Intake Form
+                </CardTitle>
+                <CardDescription>Please select a practice area and fill out the required information.</CardDescription>
+              </CardHeader>
         <CardContent>
           {/* Practice Area Selection */}
           <div className="mb-6">
@@ -440,8 +488,30 @@ export default function ClientIntakePage() {
             </>
           )}
         </CardContent>
-      </Card>
-    </div>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="ai-interview" className="space-y-6">
+            <Card className="max-w-4xl mx-auto">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                  <Badge variant="outline" className="mr-2">AI</Badge>
+                  Interactive Client Interview
+                </CardTitle>
+                <CardDescription>
+                  Our AI assistant will conduct an interactive interview to gather information about your case 
+                  and generate a preliminary assessment. This approach can uncover important details that 
+                  might be missed in traditional forms.
+                </CardDescription>
+                <Separator className="my-2" />
+              </CardHeader>
+              <CardContent>
+                <AIInterview onComplete={handleInterviewComplete} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </TooltipProvider>
   )
 }

@@ -31,6 +31,43 @@
 - ✅ Legal fee calculator with hourly and contingency fee models
 - ✅ Court filing assistant with checklists and requirements
 
+## New MCP Server Features
+- [✅] Document Automation & Template System
+  - [✅] Create API endpoints for generating legal documents from templates
+  - [✅] Develop template management system with version control
+  - [✅] Build dynamic document assembly with conditional sections
+  - [✅] Implement client/case data integration for document population
+
+- [✅] Client Intake and Consultation System
+  - [✅] Build automated client intake API with structured data collection
+  - [✅] Create AI-powered interview system for gathering case information
+  - [✅] Implement preliminary case assessment generator
+  - [✅] Develop customizable intake forms for different practice areas
+
+- [ ] Contract Analysis API
+  - [ ] Implement AI-powered contract review and risk assessment
+  - [ ] Build clause extraction and categorization system
+  - [ ] Add contract comparison against standard templates
+  - [ ] Develop risk scoring and highlighting for contract terms
+
+- [ ] Legal Research Web Scraping with Puppeteer
+  - [ ] Create puppeteer-based legal research capabilities
+  - [ ] Implement scrapers for public court records and legal databases
+  - [ ] Develop structured data extraction from legal websites
+  - [ ] Build search result filtering and relevance scoring
+
+- [ ] Document OCR and Processing
+  - [ ] Add OCR capabilities for scanning legal documents
+  - [ ] Implement text extraction from image-based PDFs
+  - [ ] Create structured data extraction from scanned documents
+  - [ ] Build document classification and metadata tagging
+
+- [ ] Legal Knowledge Graph
+  - [ ] Design connected database of legal concepts and relationships
+  - [ ] Implement knowledge graph querying API
+  - [ ] Build visualization capabilities for legal relationships
+  - [ ] Create advanced reasoning based on graph connections
+
 ## Immediate Tasks
 - [ ] Set up a valid OpenAI API key in the .env file (required for query processing)
 - [ ] Test query processing with a valid API key
