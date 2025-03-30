@@ -16,6 +16,7 @@ import PredictiveAnalysisPage from '@/pages/predictive-analysis'
 import DocumentTemplatesPage from '@/pages/DocumentTemplatesPage'
 import DocumentGenerationPage from '@/pages/DocumentGenerationPage'
 import TemplateAnalysisPage from '@/pages/TemplateAnalysisPage'
+import ContractAnalysisPage from '@/pages/ContractAnalysisPage'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="templates" element={<DocumentTemplatesPage />} />
           <Route path="templates/:templateId/generate" element={<DocumentGenerationPage />} />
           <Route path="templates/:templateId/analyze" element={<TemplateAnalysisPage />} />
+          <Route path="contract-analysis" element={<ContractAnalysisPage />} />
         </Route>
       </Routes>
     </ThemeProvider>

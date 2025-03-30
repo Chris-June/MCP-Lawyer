@@ -203,27 +203,31 @@ Format your response as a valid JSON object that matches the CaseAssessment mode
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to generate case assessment: {str(e)}")
     
-    def create_interview_session(self, practice_area: str, case_type: Optional[str] = None) -> AIInterviewSession:
+    async def create_interview_session(self, practice_area: str, case_type: Optional[str] = None) -> AIInterviewSession:
         """Create a new AI interview session"""
-        session_id = f"interview_{uuid.uuid4().hex}"
-        
-        # Initialize with standard first questions based on practice area
-        initial_questions = self._get_initial_questions(practice_area, case_type)
-        
-        session = AIInterviewSession(
-            sessionId=session_id,
-            practiceArea=practice_area,
-            caseType=case_type,
-            questions=initial_questions,
-            responses=[]
-        )
-        
-        # Save to storage
-        file_path = self.interviews_directory / f"{session_id}.json"
-        with open(file_path, 'w') as f:
-            f.write(session.json())
-        
-        return session
+        try:
+            session_id = f"interview_{uuid.uuid4().hex}"
+            
+            # Initialize with standard first questions based on practice area
+            initial_questions = self._get_initial_questions(practice_area, case_type)
+            
+            session = AIInterviewSession(
+                sessionId=session_id,
+                practiceArea=practice_area,
+                caseType=case_type,
+                questions=initial_questions,
+                responses=[]
+            )
+            
+            # Save to storage
+            file_path = self.interviews_directory / f"{session_id}.json"
+            os.makedirs(self.interviews_directory, exist_ok=True)  # Ensure directory exists
+            with open(file_path, 'w') as f:
+                f.write(session.json())
+            
+            return session
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to create interview session: {str(e)}")
     
     def _get_initial_questions(self, practice_area: str, case_type: Optional[str] = None) -> List[AIInterviewQuestion]:
         """Get initial questions based on practice area and case type"""

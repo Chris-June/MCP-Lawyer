@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.config import settings
-from app.routes import role_routes, memory_routes, healthcheck, law_practice_routes, clause_library_routes, precedent_routes, legal_tools_routes, document_template_routes, ai_processor_routes, predictive_analysis_routes, client_intake_routes
+from app.routes import role_routes, memory_routes, healthcheck, law_practice_routes, clause_library_routes, precedent_routes, legal_tools_routes, document_template_routes, ai_processor_routes, predictive_analysis_routes, client_intake_routes, contract_analysis_routes
 from app.services.role_service import RoleService
 from app.services.memory_service import MemoryService
 from app.services.ai_processor import AIProcessor
@@ -69,10 +69,14 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Add CORS middleware
+# Use our custom CORS middleware for more direct control
+from app.middleware.cors_middleware import CustomCORSMiddleware
+app.add_middleware(CustomCORSMiddleware)
+
+# Also keep the built-in CORS middleware as a fallback
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, restrict this to your frontend domain
+    allow_origins=["http://localhost:5173", "*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -89,7 +93,8 @@ app.include_router(legal_tools_routes.router, prefix=settings.api_prefix, tags=[
 app.include_router(document_template_routes.router, prefix=settings.api_prefix, tags=["Document Templates"])
 app.include_router(ai_processor_routes.router, prefix=settings.api_prefix, tags=["AI Processor"])
 app.include_router(predictive_analysis_routes.router, prefix=settings.api_prefix, tags=["Predictive Analysis"])
-app.include_router(client_intake_routes.router, tags=["Client Intake"])
+app.include_router(client_intake_routes.router, prefix=settings.api_prefix, tags=["Client Intake"])
+app.include_router(contract_analysis_routes.router, prefix=settings.api_prefix, tags=["Contract Analysis"])
 
 # Root endpoint
 @app.get("/", tags=["Root"])

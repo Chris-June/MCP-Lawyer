@@ -75,7 +75,7 @@ The system leverages GPT-4o-mini to provide intelligent assistance in legal rese
 - **Legal Fee Calculator**: Calculation of legal fees based on hourly rates, contingency fees, and fee agreements
 - **Court Filing Assistant**: Provincial court-specific checklists and requirements for filing documents
 - **Legal Research Tool**: Case law and legislation search with relevance scoring
-- **Contract Analysis**: Risk assessment and term highlighting for contract review
+- **Contract Analysis**: Comprehensive AI-powered contract review with clause extraction, risk assessment, comparison tools, and recommendations for improvements
 
 ### Practice Management
 

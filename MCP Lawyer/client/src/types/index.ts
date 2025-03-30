@@ -38,6 +38,7 @@ export interface ProcessQueryResponse {
 export * from './precedentManagement';
 export * from './legalTools';
 export * from './clientIntake';
+export * from './contractAnalysis';
 
 export interface DocumentTemplate {
   id: string

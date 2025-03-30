@@ -1,5 +1,15 @@
 # Pathways Law Practice Management Server Todo List
 
+## Recent Fixes
+- ✅ Fixed server connection issues (2025-03-29)
+  - Added missing `get_openai_service` dependency function
+  - Fixed incorrect import paths for AIProcessor
+  - Added missing dependencies module
+  - Resolved API connection timeout errors
+  - Fixed API route mismatches for client intake feature
+  - Added compatible endpoints for client-side interview API calls
+  - Separated Path and Body parameter versions of endpoints
+
 ## Current Features
 - ✅ Basic FastAPI server setup
 - ✅ Role management endpoints (CRUD operations)
@@ -44,11 +54,11 @@
   - [✅] Implement preliminary case assessment generator
   - [✅] Develop customizable intake forms for different practice areas
 
-- [ ] Contract Analysis API
-  - [ ] Implement AI-powered contract review and risk assessment
-  - [ ] Build clause extraction and categorization system
-  - [ ] Add contract comparison against standard templates
-  - [ ] Develop risk scoring and highlighting for contract terms
+- [✅] Contract Analysis API
+  - [✅] Implement AI-powered contract review and risk assessment
+  - [✅] Build clause extraction and categorization system
+  - [✅] Add contract comparison against standard templates
+  - [✅] Develop risk scoring and highlighting for contract terms
 
 - [ ] Legal Research Web Scraping with Puppeteer
   - [ ] Create puppeteer-based legal research capabilities

@@ -14,6 +14,7 @@ const navItems = [
   { path: '/clause-library', label: 'Clause Library' },
   { path: '/legal-tools', label: 'Legal Tools' },
   { path: '/client-intake', label: 'Client Intake' },
+  { path: '/contract-analysis', label: 'Contract Analysis' },
   { path: '/predictive-analysis', label: 'Case Prediction' },
 ]
 

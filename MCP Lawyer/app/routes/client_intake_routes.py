@@ -10,7 +10,7 @@ from ..models.client_intake_models import (
     CaseAssessment
 )
 
-router = APIRouter(prefix="/api/client-intake", tags=["client-intake"])
+router = APIRouter(prefix="/client-intake", tags=["client-intake"])
 
 # Dependency to get the client intake service
 async def get_client_intake_service():
@@ -80,16 +80,17 @@ async def get_case_assessment(
 
 # AI Interview endpoints
 @router.post("/interviews", response_model=AIInterviewSession, status_code=201)
+@router.post("/interview/start", response_model=AIInterviewSession, status_code=201)
 async def create_interview_session(
     practice_area: str = Body(..., description="Practice area for this interview"),
     case_type: Optional[str] = Body(None, description="Type of case"),
     client_intake_service: ClientIntakeService = Depends(get_client_intake_service)
 ):
     """Create a new AI-powered interview session"""
-    return client_intake_service.create_interview_session(practice_area, case_type)
+    return await client_intake_service.create_interview_session(practice_area, case_type)
 
 @router.post("/interviews/{session_id}/responses", response_model=AIInterviewResponse)
-async def process_interview_response(
+async def process_interview_responses(
     session_id: str = Path(..., description="ID of the interview session"),
     question_id: str = Body(..., description="ID of the question being answered"),
     response_text: str = Body(..., description="Client's response to the question"),
@@ -98,9 +99,29 @@ async def process_interview_response(
     """Process a response in an interview session and generate follow-up questions"""
     return await client_intake_service.process_interview_response(session_id, question_id, response_text)
 
+@router.post("/interview/process", response_model=AIInterviewResponse)
+@router.post("/client-intake/interview/process", response_model=AIInterviewResponse)
+async def process_interview_response_alt(
+    session_id: str = Body(..., description="ID of the interview session"),
+    user_response: str = Body(..., description="User's response for simplified API"),
+    client_intake_service: ClientIntakeService = Depends(get_client_intake_service)
+):
+    """Process a response in an interview session and generate follow-up questions"""
+    # Using the simplified client API format
+    return await client_intake_service.process_interview_response(session_id, "current", user_response)
+
 @router.post("/interviews/{session_id}/complete", response_model=Dict[str, Any])
 async def complete_interview_session(
     session_id: str = Path(..., description="ID of the interview session to complete"),
+    client_intake_service: ClientIntakeService = Depends(get_client_intake_service)
+):
+    """Complete an interview session and generate a case assessment"""
+    return await client_intake_service.complete_interview(session_id)
+
+@router.post("/interview/complete", response_model=Dict[str, Any])
+@router.post("/client-intake/interview/complete", response_model=Dict[str, Any])
+async def complete_interview_session_alt(
+    session_id: str = Body(..., description="ID of the interview session to complete"),
     client_intake_service: ClientIntakeService = Depends(get_client_intake_service)
 ):
     """Complete an interview session and generate a case assessment"""
