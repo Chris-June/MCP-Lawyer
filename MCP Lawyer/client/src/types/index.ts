@@ -37,6 +37,7 @@ export interface ProcessQueryResponse {
 // Law Practice Management Types
 export * from './precedentManagement';
 export * from './legalTools';
+export * from './clientIntake';
 
 export interface DocumentTemplate {
   id: string

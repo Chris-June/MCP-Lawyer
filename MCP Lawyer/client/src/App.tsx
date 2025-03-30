@@ -13,6 +13,9 @@ import ClauseLibraryPage from '@/pages/clause-library'
 import LegalToolsPage from '@/pages/legal-tools'
 import ClientIntakePage from '@/pages/client-intake'
 import PredictiveAnalysisPage from '@/pages/predictive-analysis'
+import DocumentTemplatesPage from '@/pages/DocumentTemplatesPage'
+import DocumentGenerationPage from '@/pages/DocumentGenerationPage'
+import TemplateAnalysisPage from '@/pages/TemplateAnalysisPage'
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
           <Route path="legal-tools" element={<LegalToolsPage />} />
           <Route path="client-intake" element={<ClientIntakePage />} />
           <Route path="predictive-analysis" element={<PredictiveAnalysisPage />} />
+          <Route path="templates" element={<DocumentTemplatesPage />} />
+          <Route path="templates/:templateId/generate" element={<DocumentGenerationPage />} />
+          <Route path="templates/:templateId/analyze" element={<TemplateAnalysisPage />} />
         </Route>
       </Routes>
     </ThemeProvider>

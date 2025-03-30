@@ -1,10 +1,10 @@
-# Pathways Law Practice Management
+# Noesis Law Practice Management
 
-*By Danial Whittal*
+*Product Owner: Christopher and IntelliSync Solutions*
 
 A comprehensive Canadian law practice management system that combines AI-powered legal expertise with document automation, deadline tracking, and client management tools. Built with FastAPI, React, and OpenAI integration.
 
-![Pathways Law Practice Management](https://via.placeholder.com/800x400?text=Pathways+Law+Practice+Management)
+![Noesis Law Practice Management](https://via.placeholder.com/800x400?text=Noesis+Law+Practice+Management)
 
 ## Table of Contents
 
@@ -326,83 +326,57 @@ The Chat page provides an interactive interface for conversing with AI roles:
 
 ## Examples
 
-### Creating a Financial Advisor Role
+### Creating a Legal Advisor Role
 
 ```json
 {
-  "id": "financial-advisor",
-  "name": "Financial Advisor",
-  "description": "Expert in personal finance and investment strategies",
-  "instructions": "You are a financial advisor with expertise in retirement planning. Always provide balanced advice considering both short-term and long-term financial goals. Explain concepts in simple terms and avoid financial jargon when possible.",
-  "domains": ["Finance", "Investment", "Retirement", "Tax Planning"],
+  "id": "legal-advisor",
+  "name": "Legal Advisor",
+  "description": "Provides internal legal guidance on matters such as contract interpretation, compliance with Canadian law, and risk assessment for law practices.",
+  "instructions": "You are an internal legal advisor with in-depth knowledge of Canadian law and law practice management. Offer detailed legal analysis, review internal documents, and provide recommendations based on current legal standards and firm policies.",
+  "domains": ["Internal Legal Guidance", "Contract Law", "Compliance"],
   "tone": "professional",
-  "system_prompt": "You are FinanceGPT, an AI assistant specialized in personal finance and investment strategies. You have extensive knowledge of retirement accounts, tax optimization, debt management, and investment vehicles. When providing advice, always consider risk tolerance, time horizon, and tax implications. Format your responses with clear sections and bullet points when appropriate."
+  "system_prompt": "You are LegalGPT, an AI assistant dedicated to assisting law firms with internal legal queries. Your responses should be clear, precise, and fully aligned with Canadian legal standards, tailored to internal use within a law practice. Use structured formats like bullet points when necessary."
 }
 ```
 
-### Creating a Technical Support Role
+### Creating a Litigation Specialist Role
 
 ```json
 {
-  "id": "tech-support",
-  "name": "Technical Support Specialist",
-  "description": "Expert in troubleshooting software and hardware issues",
-  "instructions": "You are a technical support specialist. Always start by understanding the user's problem before suggesting solutions. Ask clarifying questions if needed. Provide step-by-step instructions that are easy to follow.",
-  "domains": ["Software", "Hardware", "Networking", "Troubleshooting"],
-  "tone": "friendly",
-  "system_prompt": "You are TechGPT, an AI assistant specialized in technical support and troubleshooting. You have extensive knowledge of common software issues, hardware problems, and networking configurations. When helping users, first diagnose the problem by understanding the symptoms, then provide clear, step-by-step solutions. Use numbered lists for instructions and explain technical concepts in simple terms."
+  "id": "litigation-specialist",
+  "name": "Litigation Specialist",
+  "description": "Provides expert advice on litigation strategies, evidence management, and court procedures, tailored for internal use by legal teams.",
+  "instructions": "You are a litigation specialist with extensive experience in Canadian court systems. Offer actionable guidance on case strategy, evidence collection, and courtroom procedures, focusing on the practical needs of an internal legal team.",
+  "domains": ["Litigation", "Case Strategy", "Court Procedures"],
+  "tone": "professional",
+  "system_prompt": "You are LitigationGPT, an AI assistant specialized in litigation strategy for internal legal use. Provide structured, detailed advice on managing litigation processes, preparing for court, and handling evidence, with a strong focus on Canadian legal procedures and internal law firm protocols."
 }
 ```
 
 ### Sample Conversations
 
-#### Financial Advisor Conversation
+#### Legal Advisor Conversation
 
-**User**: I'm 35 and want to start saving for retirement. What should I do?
+**User**: As an internal counsel, I need guidance on drafting a partnership agreement with a tech firm. What key clauses should we include to protect our firm and ensure compliance with Canadian law?
 
-**AI**: Great question! Starting to save for retirement at 35 is still plenty of time to build a solid nest egg. Here's a balanced approach to get you started:
+**AI**: For an effective internal review of a partnership agreement, consider including clauses that address:
+ - **Partnership Contributions**: Clearly define financial and non-financial contributions from all parties.
+ - **Profit-Sharing**: Detail the mechanisms for profit and loss distribution.
+ - **Dispute Resolution**: Specify internal protocols for mediation or arbitration in the event of disputes.
+ - **Confidentiality and Data Protection**: Ensure that all proprietary and client-related information is safeguarded in accordance with Canadian privacy laws.
+ - **Compliance Clauses**: Incorporate provisions that mandate adherence to Canadian partnership laws and internal firm policies, including periodic reviews.
 
-**First Steps:**
-* **Establish an emergency fund** of 3-6 months of expenses before focusing heavily on retirement
-* **Take advantage of employer matching** if your workplace offers a 401(k) match - this is essentially free money
+#### Litigation Specialist Conversation
 
-**Retirement Account Options:**
-* **401(k)/403(b)**: Try to contribute at least enough to get the full employer match
-* **Roth IRA**: Consider opening one if you're eligible - contributions grow tax-free
-* **Traditional IRA**: Another option with potential tax advantages now
+**User**: Our firm has received notice of a lawsuit alleging breach of contract. What immediate steps should our litigation team take?
 
-**Investment Strategy:**
-* At 35, you can still have a relatively aggressive portfolio (e.g., 70-80% stocks, 20-30% bonds)
-* Consider low-cost index funds for diversification
-
-Would you like me to explain any of these options in more detail?
-
-#### Technical Support Conversation
-
-**User**: My laptop keeps freezing randomly. What could be wrong?
-
-**AI**: I'm sorry to hear about your laptop freezing issues! Let's figure this out together. 
-
-**Possible Causes & Solutions:**
-
-1. **Overheating**
-   * Check if your laptop feels hot when it freezes
-   * Ensure vents aren't blocked and consider using a cooling pad
-   * Clean dust from internal fans (if you're comfortable opening it or get professional help)
-
-2. **Resource-intensive applications**
-   * Check Task Manager (Ctrl+Shift+Esc) to see what's using resources
-   * Close unnecessary applications and browser tabs
-
-3. **Outdated drivers or software**
-   * Update your operating system
-   * Update graphics and other device drivers
-
-4. **Insufficient RAM or storage**
-   * Check available storage space (aim for at least 10% free)
-   * Consider upgrading RAM if your system is consistently using near 100%
-
-Could you tell me a bit more about when the freezing happens? Does it occur during specific activities or at random times?
+**AI**: In response to a breach of contract claim, the litigation team should:
+ 1. **Review the Complaint**: Analyze the allegations in detail to identify the key legal issues.
+ 2. **Document Collection**: Gather all relevant contracts, correspondence, and internal memos related to the dispute.
+ 3. **Internal Strategy Session**: Convene a meeting with senior counsel to assess the case and determine the optimal defense strategy.
+ 4. **Court Procedure Preparation**: Prepare to file appropriate motions (e.g., a motion to dismiss) and ensure all documents comply with Canadian court procedures.
+ 5. **Risk Management**: Evaluate the potential financial and reputational risks, and consider whether settlement negotiations may be in the best interest of the firm.
 
 ## Advanced Configuration
 
@@ -514,6 +488,14 @@ The following enhancements are planned for future releases to provide comprehens
 - **Jurisdiction Research**: Enhanced research capabilities focused on provincial differences in law
 - **Predictive Case Outcome Analysis**: AI-powered analysis using GPT-4o-mini to predict case outcomes based on similar precedents, jurisdiction-specific factors, and SWOT analysis with confidence scoring
 
+### Model Context Protocol (MCP)
+- **Backend AI Processing**: Centralized AIProcessor service using GPT-4o-mini for consistent AI interactions across all legal tools
+- **Context-Aware Analysis**: Specialized services like PredictiveAnalysisService that leverage the AI processor with domain-specific context
+- **Structured Response Handling**: Well-defined data structures for AI responses with TypeScript types for frontend type safety
+- **Markdown Formatting**: Standardized markdown output from AI responses for consistent, readable content
+- **Streaming Support**: Real-time streaming capabilities for immediate feedback during AI processing
+- **Role-Based Service Architecture**: Domain-specific AI services with role-based context handling
+
 ### Compliance and Regulatory Tools
 - **AML Compliance**: Automated verification processes for client onboarding
 - **Law Society Compliance**: Monitor and ensure compliance with provincial law society requirements
@@ -621,8 +603,12 @@ docker run -p 8000:8000 --env-file .env role-specific-mcp
 
 ## About
 
-This documentation and software is authored by **IntelliSync Solutions**  
-Written by: Chris June  
+This documentation and software is authored by **IntelliSync Solutions**.
+
+**Development Team:**
+- **Lead Developer:** Christopher June
+
+Written by: Chris June
 Last Updated: March 29, 2025
 
-© 2025 Pathways Law. All rights reserved. Owned by Danial Whittal.
+© 2025 Noesis Law. All rights reserved. Product Owner: Christopher and IntelliSync Solutions.

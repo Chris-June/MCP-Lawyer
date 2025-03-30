@@ -121,6 +121,9 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
       })
     }
   })
+  
+  // Submit handler
+
 
   const onSubmit = (data: PredictiveAnalysisRequest) => {
     mutation.mutate(data)
@@ -591,6 +594,12 @@ const PredictiveOutcomeAnalysis: React.FC<PredictiveOutcomeAnalysisProps> = () =
               </Card>
             </motion.div>
           )}
+          
+          <div className="flex justify-center mt-8">
+            <Button onClick={() => setShowResults(false)} variant="outline" size="lg">
+              Back to Case Details
+            </Button>
+          </div>
         </div>
       )}
     </div>

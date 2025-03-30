@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.config import settings
-from app.routes import role_routes, memory_routes, healthcheck, law_practice_routes, clause_library_routes, precedent_routes, legal_tools_routes
+from app.routes import role_routes, memory_routes, healthcheck, law_practice_routes, clause_library_routes, precedent_routes, legal_tools_routes, document_template_routes, ai_processor_routes, predictive_analysis_routes, client_intake_routes
 from app.services.role_service import RoleService
 from app.services.memory_service import MemoryService
 from app.services.ai_processor import AIProcessor
@@ -17,6 +17,7 @@ from app.services.document_comparison_service import DocumentComparisonService
 from app.services.legal_fee_calculator_service import LegalFeeCalculatorService
 from app.services.court_filing_service import CourtFilingService
 from app.services.predictive_analysis_service import PredictiveAnalysisService
+from app.services.document_template_service import DocumentTemplateService
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -36,6 +37,7 @@ async def lifespan(app: FastAPI):
     legal_fee_calculator_service = LegalFeeCalculatorService(ai_processor)
     court_filing_service = CourtFilingService(ai_processor)
     predictive_analysis_service = PredictiveAnalysisService(ai_processor)
+    document_template_service = DocumentTemplateService(memory_service, ai_processor)
     
     # Add services to app state
     app.state.ai_processor = ai_processor
@@ -52,6 +54,7 @@ async def lifespan(app: FastAPI):
     app.state.legal_fee_calculator_service = legal_fee_calculator_service
     app.state.court_filing_service = court_filing_service
     app.state.predictive_analysis_service = predictive_analysis_service
+    app.state.document_template_service = document_template_service
     
     yield
     
@@ -83,6 +86,10 @@ app.include_router(law_practice_routes.router, prefix=settings.api_prefix, tags=
 app.include_router(clause_library_routes.router, prefix=settings.api_prefix, tags=["Clause Library"])
 app.include_router(precedent_routes.router, prefix=settings.api_prefix, tags=["Precedent Management"])
 app.include_router(legal_tools_routes.router, prefix=settings.api_prefix, tags=["Legal Tools"])
+app.include_router(document_template_routes.router, prefix=settings.api_prefix, tags=["Document Templates"])
+app.include_router(ai_processor_routes.router, prefix=settings.api_prefix, tags=["AI Processor"])
+app.include_router(predictive_analysis_routes.router, prefix=settings.api_prefix, tags=["Predictive Analysis"])
+app.include_router(client_intake_routes.router, tags=["Client Intake"])
 
 # Root endpoint
 @app.get("/", tags=["Root"])
